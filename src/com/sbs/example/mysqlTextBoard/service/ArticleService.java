@@ -17,8 +17,9 @@ public class ArticleService {
 	public List<Article> getArticlesBySelectedBoardId() {
 		List<Article> articlesByBoardId = new ArrayList<>();
 		for(Article article : articleDao.getArticles()) {
-			if(article.boardId == Container.session.boardSelectedId) {
+			if(article.boardId == Container.session.loginedId) {
 				articlesByBoardId.add(article);
+				
 			}
 		}
 		

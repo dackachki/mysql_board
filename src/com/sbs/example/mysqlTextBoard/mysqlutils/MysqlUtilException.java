@@ -1,4 +1,4 @@
-package com.sbs.example.mysqlutil;
+package com.sbs.example.mysqlTextBoard.mysqlutils;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;

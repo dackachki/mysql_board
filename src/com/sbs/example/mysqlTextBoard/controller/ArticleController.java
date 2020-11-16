@@ -8,7 +8,7 @@ import com.sbs.example.mysqlTextBoard.dto.Article;
 import com.sbs.example.mysqlTextBoard.dto.Board;
 import com.sbs.example.mysqlTextBoard.dto.Member;
 import com.sbs.example.mysqlTextBoard.service.ArticleService;
-import com.sbs.example.mysqlutil.MysqlUtil;
+
 
 
 
@@ -23,9 +23,7 @@ public class ArticleController {
 	}
 
 	public void doCommand(String cmd) {
-		MysqlUtil.setDBInfo("localhost", "sbsst", "sbs123414", "a2");
-
-		MysqlUtil.setDevMode(true);
+		
 		if (cmd.startsWith("article list")) {
 			
 			 if(cmd.split(" ").length <= 2) {
@@ -38,7 +36,8 @@ public class ArticleController {
 			
 				
 			
-		} else if (cmd.startsWith("article detail")) {
+		} 
+		else if (cmd.startsWith("article detail")) {
 			if(cmd.split(" ").length <= 2) {
 				System.out.println("게시물 번호를 입력하세요.");
 				return;
@@ -107,7 +106,7 @@ public class ArticleController {
 		System.out.println("== 게시물 리스트 ==");
 
 		List<Article> articles = articleService.getArticlesBySelectedBoardId();
-
+		
 		System.out.println("번호 / 분류 /         작성일       /         수정일        / 작성자 / 제목");
 
 		for (Article article : articles) {
@@ -186,7 +185,7 @@ public class ArticleController {
 		return articleService.getAllArticles();
 	}
 	public int getArticlesSize() {
-		return articleService.getArticlesBySelectedBoardId().size();
+		return articleService.getAllArticles().size();
 	}
 
 

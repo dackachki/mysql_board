@@ -1,4 +1,4 @@
-package com.sbs.example.mysqlutil;
+package com.sbs.example.mysqlTextBoard.mysqlutils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

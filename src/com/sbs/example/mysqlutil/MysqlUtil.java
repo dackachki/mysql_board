@@ -64,11 +64,7 @@ public class MysqlUtil {
 		long currentThreadId = Thread.currentThread().getId();
 
 		if (connections.containsKey(currentThreadId) == false) {
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				throw new MysqlUtilException(e);
-			}
+			
 
 			Connection connection = null;
 

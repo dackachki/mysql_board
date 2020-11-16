@@ -20,8 +20,8 @@ public class MemberDao {
 
 		try {
 			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/a2?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
-			String dbmsLoginId = "sbsst";
-			String dbmsLoginPw = "sbs123414";
+			String dbmsLoginId = "namsw";
+			String dbmsLoginPw = "ska78";
 
 			// 연결 생성
 			try {
@@ -71,8 +71,8 @@ public class MemberDao {
 
 			try {
 				String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/a2?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
-				String dbmsLoginId = "sbsst";
-				String dbmsLoginPw = "sbs123414";
+				String dbmsLoginId = "namsw";
+				String dbmsLoginPw = "ska78";
 
 				// 연결 생성
 				try {
