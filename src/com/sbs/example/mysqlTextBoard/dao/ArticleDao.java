@@ -8,61 +8,40 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.sbs.example.mysqlTextBoard.dto.Article;
+import com.sbs.example.mysqlutil.MysqlUtil;
+import com.sbs.example.mysqlutil.SecSql;
 
 public class ArticleDao {
+	
 
 	public List<Article> getArticles() {
 		List<Article> articles = new ArrayList<>();
 		Connection con = null;
 
-		try {
-			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/a2?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
-			String dbmsLoginId = "sbsst";
-			String dbmsLoginPw = "sbs123414";
-
-			// 연결 생성
-			try {
-				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-			String sql = "SELECT * FROM article;";
-
-			try {
-				PreparedStatement pstmt = con.prepareStatement(sql);
-				ResultSet rs = pstmt.executeQuery();
-
-				while (rs.next()) {
-
-					int id = rs.getInt("id");
-					String regDate = rs.getString("regDate");
-					String updateDate = rs.getString("updateDate");
-					String title = rs.getString("title");
-					String body = rs.getString("body");
-					int memberId = rs.getInt("memberId");
-					int boardId = rs.getInt("boardId");
-
-					Article article = new Article(id, regDate, updateDate, title, body, memberId, boardId);
-
-					articles.add(article);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-		} finally {
-			try {
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		
+		List<Map<String, Object>> articleListMap = MysqlUtil.selectRows(new SecSql().append("SELECT * FROM article"));
+		System.out.println("articleListMap : " + articleListMap);
+		for(Map<String, Object> articleMap : articleListMap) {
+			Article article = new Article();
+			article.id = (int) articleMap.get("id");
+			article.regDate =(String) articleMap.get("regDate");
+			article.updateDate =(String) articleMap.get("updateDate");
+			article.title =(String) articleMap.get("title");
+			article.body =(String) articleMap.get("body");
+			article.memberId =(int) articleMap.get("memberId");
+			article.boardId =(int) articleMap.get("boardId");
+			articles.add(article);
+			
+			
 		}
+			
+			
+			
 
+		
 		return articles;
 	}
 
@@ -147,10 +126,11 @@ public class ArticleDao {
 
 			try {
 				PreparedStatement pstmt = con.prepareStatement(sql);
-				pstmt.executeUpdate();
+				
 				pstmt.setString(1, title);
 				pstmt.setString(2, body);
 				pstmt.setInt(3, inputid);
+				pstmt.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

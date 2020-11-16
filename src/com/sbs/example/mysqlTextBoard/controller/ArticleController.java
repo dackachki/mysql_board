@@ -5,12 +5,17 @@ import java.util.Scanner;
 
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
+import com.sbs.example.mysqlTextBoard.dto.Board;
 import com.sbs.example.mysqlTextBoard.dto.Member;
 import com.sbs.example.mysqlTextBoard.service.ArticleService;
+import com.sbs.example.mysqlutil.MysqlUtil;
+
+
 
 public class ArticleController {
 	private static ArticleService articleService;
 	Scanner sc = Container.scanner;
+	
 
 	public ArticleController() {
 		articleService = new ArticleService();
@@ -18,16 +23,44 @@ public class ArticleController {
 	}
 
 	public void doCommand(String cmd) {
-		if (cmd.equals("article list")) {
-			showList();
+		MysqlUtil.setDBInfo("localhost", "sbsst", "sbs123414", "a2");
+
+		MysqlUtil.setDevMode(true);
+		if (cmd.startsWith("article list")) {
+			
+			 if(cmd.split(" ").length <= 2) {
+					showList();
+				}
+			 
+			 else if (cmd.split(" ") [2].equals("all")) {
+				showAllList();
+			}
+			
+				
+			
 		} else if (cmd.startsWith("article detail")) {
+			if(cmd.split(" ").length <= 2) {
+				System.out.println("게시물 번호를 입력하세요.");
+				return;
+			}
 			int inputid = Integer.parseInt(cmd.split(" ")[2]);
 			detailShow(inputid);
 		} else if (cmd.startsWith("article modify")) {
+			if(cmd.split(" ").length <= 2) {
+				System.out.println("게시물 번호를 입력하세요.");
+				return;
+			}
 			int inputid = Integer.parseInt(cmd.split(" ")[2]);
+			
+			
+			
 			
 			articleModified(inputid);
 		} else if (cmd.startsWith("article delete")) {
+			if(cmd.split(" ").length <= 2) {
+				System.out.println("게시물 번호를 입력하세요.");
+				return;
+			}
 			int inputid = Integer.parseInt(cmd.split(" ")[2]);
 			deleteArticleById(inputid);
 		}
@@ -36,9 +69,27 @@ public class ArticleController {
 		}
 	}
 
+	private void showAllList() {
+		System.out.println("== 게시물 리스트 ==");
+
+		List<Article> articles = articleService.getAllArticles();
+
+		System.out.println("번호 / 분류 /         작성일       /         수정일        / 작성자 / 제목");
+
+		for (Article article : articles) {
+			System.out.printf("%d / %s / %s / %s / %s / %s\n", article.id,getBoardNameByBoardId(article.boardId), article.regDate, article.updateDate,
+					getMemberIdByMemberIndex(article.memberId), article.title);
+		}
+		
+	}
+
 	private void doWrite() {
 		if(Container.session.loginedId == 0) {
 			System.out.println("로그인 후 시도하세요");
+			return;
+		}
+		if(Container.session.boardSelectedId == 0) {
+			System.out.println("게시판 선택 후 다시 시도하세요");
 			return;
 		}
 			System.out.println("== 게시물 작성 == ");
@@ -47,7 +98,7 @@ public class ArticleController {
 			System.out.printf("내용 : ");
 			String body = sc.nextLine();
 			int memberId = Container.session.loginedId;
-			int boardId = 1;
+			int boardId = Container.session.boardSelectedId;
 			articleService.doWrite(memberId,boardId,title,body);
 		
 	}
@@ -55,12 +106,12 @@ public class ArticleController {
 	public void showList() {
 		System.out.println("== 게시물 리스트 ==");
 
-		List<Article> articles = articleService.getArticles();
+		List<Article> articles = articleService.getArticlesBySelectedBoardId();
 
-		System.out.println("번호 / 작성 / 수정 / 작성자 / 제목");
+		System.out.println("번호 / 분류 /         작성일       /         수정일        / 작성자 / 제목");
 
 		for (Article article : articles) {
-			System.out.printf("%d / %s / %s / %s / %s\n", article.id, article.regDate, article.updateDate,
+			System.out.printf("%d / %s / %s / %s / %s / %s\n", article.id,getBoardNameByBoardId(article.boardId), article.regDate, article.updateDate,
 					getMemberIdByMemberIndex(article.memberId), article.title);
 		}
 	}
@@ -90,9 +141,7 @@ public class ArticleController {
 		String title = sc.nextLine();
 		System.out.println("변경할 이름 : ");
 		String body = sc.nextLine();
-		Article article = articleService.getDetailById(inputid);
-		article.body = body;
-		article.title = title;
+		
 		articleService.articleModified(inputid, title, body);
 
 	}
@@ -123,11 +172,21 @@ public class ArticleController {
 		}
 		return null;
 	}
+	public String getBoardNameByBoardId(int boardId) {
+		for (Board board : Container.boardDao.getBoards()) {
+			if(board.id == boardId) {
+				return board.boardName;
+			}
+			
+		}
+		return null;
+				
+	}
 	public List<Article> getArticles(){
-		return articleService.getArticles();
+		return articleService.getAllArticles();
 	}
 	public int getArticlesSize() {
-		return articleService.getArticles().size();
+		return articleService.getArticlesBySelectedBoardId().size();
 	}
 
 

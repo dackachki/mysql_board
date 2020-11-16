@@ -8,9 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sbs.example.mysqlTextBoard.dto.Article;
+import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Member;
-import com.sbs.example.mysqlTextBoard.service.MemberService;
 
 public class MemberDao {
 	List<Member> members;
@@ -114,6 +113,16 @@ public class MemberDao {
 			}
 			return null;
 	}
+
+	public Member getMemberByLoginedId() {
+		for(Member member : members) {
+			if(member.memberIndex == Container.session.loginedId) {
+				return member;
+			}
+		}
+		return null;
+	}
+	
 
 
 

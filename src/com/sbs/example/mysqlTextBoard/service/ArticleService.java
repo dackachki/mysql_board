@@ -1,7 +1,9 @@
 package com.sbs.example.mysqlTextBoard.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dao.ArticleDao;
 import com.sbs.example.mysqlTextBoard.dto.Article;
 
@@ -12,8 +14,15 @@ public class ArticleService {
 		articleDao = new ArticleDao();
 	}
 
-	public List<Article> getArticles() {
-		return articleDao.getArticles();
+	public List<Article> getArticlesBySelectedBoardId() {
+		List<Article> articlesByBoardId = new ArrayList<>();
+		for(Article article : articleDao.getArticles()) {
+			if(article.boardId == Container.session.boardSelectedId) {
+				articlesByBoardId.add(article);
+			}
+		}
+		
+		return articlesByBoardId;
 	}
 
 	
@@ -36,6 +45,11 @@ public class ArticleService {
 
 	public void doWrite(int memberId, int boardId, String title, String body) {
 		articleDao.doWrite(memberId,boardId,title,body);
+		
+	}
+
+	public List<Article> getAllArticles() {
+		return articleDao.getArticles();
 		
 	}
 }

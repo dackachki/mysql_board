@@ -26,7 +26,23 @@ public class MemberController {
 			showMemberList();
 		} else if (cmd.equals("member logout")) {
 			memberLogout();
+		} else if (cmd.equals("member whoami")) {
+			memberWhoAmI();
 		}
+
+	}
+
+	private void memberWhoAmI() {
+		if (Container.session.loginedId == 0) {
+			System.out.println("로그인 중인 회원이 없습니다.");
+			return;
+		}
+		Member member = new Member();
+		member = getMemberByLoginedId();
+
+		System.out.println("== 현재 로그인 중인 회원 정보 ==");
+		System.out.printf("회원 이름 : %s\n", member.memberName);
+		System.out.printf("회원 이름 : %s\n", member.memberId);
 
 	}
 
@@ -37,54 +53,74 @@ public class MemberController {
 	}
 
 	private void memberLogin() {
+		if (Container.session.loginedId != 0) {
+			System.out.println("로그인 중인 아이디가 있습니다.");
+			return;
+		}
 		Member loginTryMember = null;
 		System.out.println("== 회원 로그인 ==");
 
 		boolean idPassOk = false;
 
+		int tryC = 0;
+		int maxC = 3;
 		while (true) {
-			int tryC = 0;
-			int maxC = 3;
+
 			System.out.printf("아이디 입력 : ");
 			String memberId = sc.nextLine().trim();
-			if (tryC > maxC) {
+			if (tryC >= maxC) {
 				System.out.println("확인 후 다시 시도하세요.");
+
 				return;
 			}
-			if(memberId.length() == 0 ) {
-				System.out.println("아이디를 입력하세요.");
-				tryC++;
-				continue;
-			}
+
 			for (Member member : getMembers()) {
 				if (member.memberId.equals(memberId)) {
 					idPassOk = true;
 					loginTryMember = member;
 				}
 			}
-			
-			if (idPassOk == false) {
+			if (memberId.length() == 0) {
+				System.out.println("아이디를 입력하세요.");
+				tryC++;
+
+			} else if (idPassOk == false) {
 				System.out.println("존재하지 않는 아이디입니다.");
 				tryC++;
+
 			}
-			
+
 			if (idPassOk) {
 				break;
 
 			}
-			
-			
-						
-		}
 
+		}
+		int passwdTryC = 0;
+		int passwdMaxC = 3;
+		while(true) {
+			if(passwdTryC >= passwdMaxC) {
+				System.out.println("비밀번호 확인 후 다시 시도하세요.");
+				return;
+			}
+		
 		System.out.printf("비밀번호 입력 : ");
-		String passwd = sc.nextLine();
-		if (loginTryMember.memberPw.equals(passwd) == false) {
+		String passwd = sc.nextLine().trim();
+		if(passwd.length() == 0) {
+			System.out.println("비밀번호를 입력하세요");
+			passwdTryC++;
+		}
+		else if (loginTryMember.memberPw.equals(passwd) == false) {
 			System.out.println("비밀번호가 일치하지 않습니다.");
-			return;
-		} else if (loginTryMember.memberPw.equals(passwd)) {
+			passwdTryC++;
+			
+		}
+		
+		else if (loginTryMember.memberPw.equals(passwd)) {
 			System.out.printf("%s 님 환영합니다.\n", loginTryMember.memberName);
 			Container.session.loginedId = loginTryMember.memberIndex;
+			break;
+		}
 		}
 	}
 
@@ -116,5 +152,9 @@ public class MemberController {
 
 	private List<Member> getMembers() {
 		return memberService.getMembers();
+	}
+
+	public Member getMemberByLoginedId() {
+		return memberService.getMemberByLoginedId();
 	}
 }
