@@ -15,32 +15,32 @@ public class App {
 		MemberController memberController = new MemberController();
 		BoardController boardController = new BoardController();
 		while (true) {
-			
-			
+
 			System.out.printf("명령어) ");
 			String cmd = sc.nextLine();
 			MysqlUtil.setDBInfo("localhost", "sbsst", "sbs123414", "a2");
-
-			MysqlUtil.setDevMode(true);
-			 if (cmd.equals("system exit")) {
+			boolean needToExit = false;
+			MysqlUtil.setDevMode(false);
+			if (cmd.equals("system exit")) {
 				System.out.println("== 시스템 종료 ==");
-				MysqlUtil.closeConnection();
-				break;
+				needToExit = true;
 			} else if (cmd.startsWith("article")) {
 				articleController.doCommand(cmd);
-				MysqlUtil.closeConnection();
-			}
-			else if(cmd.startsWith("member")) {
+
+			} else if (cmd.startsWith("member")) {
 				memberController.doCommand(cmd);
 				MysqlUtil.closeConnection();
-			}
-			else if(cmd.startsWith("board")) {
-				boardController.doCommand(cmd);	
+			} else if (cmd.startsWith("board")) {
+				boardController.doCommand(cmd);
 				MysqlUtil.closeConnection();
 			}
-			 
+			
+			MysqlUtil.closeConnection();
+
+			if (needToExit) {
+				break;
+			}
 		}
 
 	}
-
 }

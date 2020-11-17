@@ -4,54 +4,44 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
+import com.sbs.example.mysqlTextBoard.dto.Reply;
 import com.sbs.example.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlutil.SecSql;
 
 public class ArticleDao {
-	List<Article> articles = new ArrayList<>();
+		int articleSize = 0;
 	
+
 	public int getArticleSize() {
-		return articles.size();
+		return articleSize;
 	}
 
-
 	public List<Article> getArticles() {
-		
-
-		List<Map<String, Object>> articleListMap = MysqlUtil.selectRows(new SecSql().append("SELECT * FROM article"));
+		List<Article> articles = new ArrayList<>();
+		List<Map<String, Object>> articleListMap = MysqlUtil
+				.selectRows(new SecSql().append("SELECT * FROM article order by id desc"));
 
 		for (Map<String, Object> articleMap : articleListMap) {
-			Article article = new Article();
-			article.id = (int) articleMap.get("id");
-			article.regDate = (String) articleMap.get("regDate");
-			article.updateDate = (String) articleMap.get("updateDate");
-			article.title = (String) articleMap.get("title");
-			article.body = (String) articleMap.get("body");
-			article.memberId = (int) articleMap.get("memberId");
-			article.boardId = (int) articleMap.get("boardId");
+			Article article = new Article(articleMap);
 			articles.add(article);
 
 		}
-
+		articleSize = articles.size();
 		return articles;
 	}
 
-	public  Article getDetailById(int inputid) {
+	public Article getDetailById(int inputid) {
 
 		Map<String, Object> articleMap = MysqlUtil
 				.selectRow(new SecSql().append("SELECT * FROM article where id = ? ; ", inputid));
+		if (articleMap.isEmpty()) {
 
-		Article article = new Article();
-		article.id = (int) articleMap.get("id");
-		article.regDate = (String) articleMap.get("regDate");
-		article.updateDate = (String) articleMap.get("updateDate");
-		article.title = (String) articleMap.get("title");
-		article.body = (String) articleMap.get("body");
-		article.memberId = (int) articleMap.get("memberId");
-		article.boardId = (int) articleMap.get("boardId");
+			return null;
+		}
 
-		return article;
+		return new Article(articleMap);
 
 	}
 
@@ -71,19 +61,41 @@ public class ArticleDao {
 	}
 
 	public void doWrite(int memberId, int boardId, String title, String body) {
-		
 
-		MysqlUtil.update(new SecSql().append("insert into article set title = ?,body = ?,updateDate = now(),memberId =? ,boardId = ?;",title,body,memberId,boardId));
+		MysqlUtil.update(new SecSql().append(
+				"insert into article set title = ?,body = ?,updateDate = now(),memberId =? ,boardId = ?;", title, body,
+				memberId, boardId));
 		int lastArticleId = MysqlUtil.selectRowIntValue(new SecSql().append("SELECT COUNT(*) FROM article;"));
-			
-			
-				
-
-				
 
 		System.out.printf("%d번 게시물이 생성되었습니다.\n", lastArticleId);
 
-	
 	}
 
-}
+	public void doWriteReply(int inputid, String replyBody) {
+
+		SecSql sql = new SecSql();
+		int writeMemberId = Container.session.loginedId;
+		sql.append("insert into replies set bodyR = ?,writeMemberId = ?,articleNumber = ?;", replyBody, writeMemberId,
+				inputid);
+		System.out.printf("%d번 게시물에 댓글이 생성되었습니다.\n", inputid);
+
+	}
+
+	public List<Reply> getArticleReplyById(int inputid) {
+		List<Reply> repliesById = new ArrayList<>();
+		List<Map<String, Object>> replyListMap = MysqlUtil
+				.selectRows(new SecSql().append("SELECT * FROM replies where articleNumber = ?", inputid));
+
+		for (Map<String, Object> replyMap : replyListMap) {
+			Reply reply = new Reply(replyMap);
+				repliesById.add(reply);
+
+			}
+		
+		return repliesById;	
+			
+		}
+		
+	}
+
+

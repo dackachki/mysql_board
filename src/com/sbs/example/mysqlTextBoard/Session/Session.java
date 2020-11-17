@@ -4,6 +4,6 @@ public class Session {
 
 	public int loginedId;
 	
-	public int boardSelectedId =100;
+	public int boardSelectedId =0;
 
 }

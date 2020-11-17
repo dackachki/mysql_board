@@ -98,40 +98,43 @@ public class MemberController {
 		}
 		int passwdTryC = 0;
 		int passwdMaxC = 3;
-		while(true) {
-			if(passwdTryC >= passwdMaxC) {
+		while (true) {
+			if (passwdTryC >= passwdMaxC) {
 				System.out.println("비밀번호 확인 후 다시 시도하세요.");
 				return;
 			}
-		
-		System.out.printf("비밀번호 입력 : ");
-		String passwd = sc.nextLine().trim();
-		if(passwd.length() == 0) {
-			System.out.println("비밀번호를 입력하세요");
-			passwdTryC++;
-		}
-		else if (loginTryMember.memberPw.equals(passwd) == false) {
-			System.out.println("비밀번호가 일치하지 않습니다.");
-			passwdTryC++;
-			
-		}
-		
-		else if (loginTryMember.memberPw.equals(passwd)) {
-			System.out.printf("%s 님 환영합니다.\n", loginTryMember.memberName);
-			Container.session.loginedId = loginTryMember.memberIndex;
-			break;
-		}
+
+			System.out.printf("비밀번호 입력 : ");
+			String passwd = sc.nextLine().trim();
+			if (passwd.length() == 0) {
+				System.out.println("비밀번호를 입력하세요");
+				passwdTryC++;
+			} else if (loginTryMember.memberPw.equals(passwd) == false) {
+				System.out.println("비밀번호가 일치하지 않습니다.");
+				passwdTryC++;
+
+			}
+
+			else if (loginTryMember.memberPw.equals(passwd)) {
+				System.out.printf("%s 님 환영합니다.\n", loginTryMember.memberName);
+				Container.session.loginedId = loginTryMember.memberIndex;
+				System.out.println(Container.session.loginedId);
+				break;
+			}
 		}
 	}
 
 	public void memberJoin() {
 		System.out.println("== 회원 가입 ==");
 		System.out.printf("이름 입력 : ");
-		String name = sc.nextLine();
+		String name = sc.nextLine().trim();
+		if(name.length() == 0) {
+			System.out.println("아이디를 입력하세요.");
+		}
 		System.out.printf("아이디 입력 : ");
-		String memberId = sc.nextLine();
+		String memberId = sc.nextLine().trim();
 		System.out.printf("비밀번호 입력 : ");
-		String memberPw = sc.nextLine();
+		String memberPw = sc.nextLine().trim();
 
 		memberService.memberJoin(name, memberId, memberPw);
 
