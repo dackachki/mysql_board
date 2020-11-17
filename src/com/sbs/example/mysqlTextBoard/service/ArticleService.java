@@ -17,7 +17,7 @@ public class ArticleService {
 	public List<Article> getArticlesBySelectedBoardId() {
 		List<Article> articlesByBoardId = new ArrayList<>();
 		for(Article article : articleDao.getArticles()) {
-			if(article.boardId == Container.session.loginedId) {
+			if(article.boardId == Container.session.boardSelectedId) {
 				articlesByBoardId.add(article);
 				
 			}
@@ -28,8 +28,8 @@ public class ArticleService {
 
 	
 	
-	public static String articleModified(int inputid, String title, String body) {
-		return ArticleDao.articleModified(inputid,title, body);
+	public  void articleModified(int inputid, String title, String body) {
+		ArticleDao.articleModified(inputid,title, body);
 	
 
 }

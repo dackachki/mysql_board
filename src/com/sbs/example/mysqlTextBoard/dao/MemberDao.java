@@ -1,131 +1,63 @@
 package com.sbs.example.mysqlTextBoard.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Member;
+import com.sbs.example.mysqlutil.MysqlUtil;
+import com.sbs.example.mysqlutil.SecSql;
 
 public class MemberDao {
 	List<Member> members;
 
 	public List<Member> getMembers() {
 		members = new ArrayList<>();
-		Connection con = null;
+		List<Map<String, Object>> MembersMapList = MysqlUtil.selectRows(new SecSql().append("SELECT * FROM members"));
 
-		try {
-			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/a2?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
-			String dbmsLoginId = "namsw";
-			String dbmsLoginPw = "ska78";
-
-			// 연결 생성
-			try {
-				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-			String sql = "SELECT * FROM members;";
-
-			try {
-				PreparedStatement pstmt = con.prepareStatement(sql);
-				ResultSet rs = pstmt.executeQuery();
-
-				while (rs.next()) {
-
-					int id = rs.getInt("id");
-					String memberName = rs.getString("memberName");
-					String memberId = rs.getString("memberId");
-					String memberPw = rs.getString("memberPw");
-					
-
-					Member member = new Member(id,memberName,memberId,memberPw);
-
-					members.add(member);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-		} finally {
-			try {
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		for (Map<String, Object> MembersMap : MembersMapList) {
+			Member member  = new Member();
+			member.memberIndex = (int)MembersMap.get("id");
+			member.memberName = (String) MembersMap.get("memberName");
+			member.memberId = (String) MembersMap.get("memberId");
+			member.memberPw = (String) MembersMap.get("memberPw");
+			
+			members.add(member);
 		}
+
+	
+		
 
 		return members;
 	}
 
 	public void memberJoin(String name, String memberId, String memberPw) {
+		MysqlUtil.update(new SecSql().append("insert into members set memberName = ?, memberId = ?,memberPw = ?;",name,memberId,memberPw));
+
 		
-			Connection con = null;
 
-			try {
-				String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/a2?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
-				String dbmsLoginId = "namsw";
-				String dbmsLoginPw = "ska78";
+		System.out.printf("%s님 가입이 완료되었습니다.\n",name);
 
-				// 연결 생성
-				try {
-					con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-
-				String sql = "insert into members set memberName = '" + name +"', memberId = '"+ memberId +"', memberPw = '" +memberPw + "' ;";
-				
-				try {
-					PreparedStatement pstmt = con.prepareStatement(sql);
-					pstmt.executeUpdate();
-
-									} catch (SQLException e) {
-					e.printStackTrace();
-				}
-
-			} finally {
-				try {
-					if (con != null) {
-						con.close();
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			System.out.println("회원이 추가되었습니다.");
-			
-		}
+	}
 
 	public Member getMemberById(String memberId) {
-			for(Member member : members) {
-				if(member.memberId.equals(memberId)) {
-					return member;
-				}
-				
+		for (Member member : members) {
+			if (member.memberId.equals(memberId)) {
+				return member;
 			}
-			return null;
+
+		}
+		return null;
 	}
 
 	public Member getMemberByLoginedId() {
-		for(Member member : members) {
-			if(member.memberIndex == Container.session.loginedId) {
+		for (Member member : members) {
+			if (member.memberIndex == Container.session.loginedId) {
 				return member;
 			}
 		}
 		return null;
 	}
-	
 
-
-
-	}
-
-
+}

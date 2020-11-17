@@ -19,7 +19,7 @@ public class App {
 			
 			System.out.printf("명령어) ");
 			String cmd = sc.nextLine();
-			MysqlUtil.setDBInfo("localhost", "namsw", "ska78", "a2");
+			MysqlUtil.setDBInfo("localhost", "sbsst", "sbs123414", "a2");
 
 			MysqlUtil.setDevMode(true);
 			 if (cmd.equals("system exit")) {

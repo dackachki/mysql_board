@@ -27,6 +27,10 @@ public class ArticleController {
 		if (cmd.startsWith("article list")) {
 			
 			 if(cmd.split(" ").length <= 2) {
+				 if(Container.session.boardSelectedId == 0) {
+					 System.out.println("선택된 게시판이 없습니다.");
+					 return;
+				 }
 					showList();
 				}
 			 
