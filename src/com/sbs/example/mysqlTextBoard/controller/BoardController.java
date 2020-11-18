@@ -7,7 +7,7 @@ import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Board;
 import com.sbs.example.mysqlTextBoard.service.BoardService;
 
-public class BoardController {
+public class BoardController extends Controller {
 	private BoardService boardService;
 	Scanner sc = Container.scanner;
 
@@ -30,7 +30,11 @@ public class BoardController {
 			}
 
 		} else if (cmd.equals("board select")) {
-			System.out.println("선택할 보드 이름 입력 : ");
+			System.out.println("== 현재 게시판 목록 ==");
+			for(Board board : getBoards()) {
+				System.out.printf("%s\n",board.boardName);
+			}
+			System.out.printf("선택할 보드 이름 입력 : ");
 			String boardLF = sc.nextLine();
 			boolean boardPass = isBoardExist(boardLF);
 			if (boardPass == false) {
@@ -38,21 +42,20 @@ public class BoardController {
 			}
 			if (boardPass) {
 				System.out.printf("%s 게시판이 선택되었습니다.\n", boardLF);
-				System.out.println(Container.session.boardSelectedId);
 
 			}
 
 		} else if (cmd.equals("board preinfo")) {
-			
+
 			int presentBoardId = Container.session.boardSelectedId;
-			if(presentBoardId == 0) {
+			if (presentBoardId == 0) {
 				System.out.println("선택된 게시판이 없습니다.");
 				return;
 			}
 			System.out.printf("선택된 게시판 번호 :%d\n", presentBoardId);
-			for(Board board : getBoards()) {
-				if(presentBoardId == board.id) {
-					System.out.printf("선택된 게시판 이름 : %s\n ",board.boardName);
+			for (Board board : getBoards()) {
+				if (presentBoardId == board.id) {
+					System.out.printf("선택된 게시판 이름 : %s\n ", board.boardName);
 				}
 			}
 		}

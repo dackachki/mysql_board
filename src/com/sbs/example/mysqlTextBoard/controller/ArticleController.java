@@ -10,7 +10,7 @@ import com.sbs.example.mysqlTextBoard.dto.Member;
 import com.sbs.example.mysqlTextBoard.dto.Reply;
 import com.sbs.example.mysqlTextBoard.service.ArticleService;
 
-public class ArticleController {
+public class ArticleController extends Controller {
 	private static ArticleService articleService;
 	Scanner sc = Container.scanner;
 
@@ -64,6 +64,18 @@ public class ArticleController {
 			int inputid = Integer.parseInt(cmd.split(" ")[2]);
 			doWriteReply(inputid);
 		}
+		else if(cmd.startsWith("article replymodify")){
+			int inputid = Integer.parseInt(cmd.split(" ")[2]);
+			doReplyModify(inputid);
+		}
+	}
+
+	private void doReplyModify(int inputid) {
+		System.out.println("== 리플 수정 ==");
+		System.out.printf("수정할 댓글 id : ");
+		int replyId = sc.nextInt();
+		articleService.doReplyModify(inputid,replyId);
+		
 	}
 
 	private void doWriteReply(int inputid) {
@@ -78,11 +90,11 @@ public class ArticleController {
 
 		List<Article> articles = articleService.getAllArticles();
 
-		System.out.println("번호 / 분류 /         작성일       /         수정일        / 작성자 / 제목");
+		System.out.println("번호 / 분류 /         작성일       /         수정일        / 작성자 / 작성자번호 / 제목");
 
 		for (Article article : articles) {
-			System.out.printf("%d / %s / %s / %s / %s / %s\n", article.id, getBoardNameByBoardId(article.boardId),
-					article.regDate, article.updateDate, getMemberIdByMemberIndex(article.memberId), article.title);
+			System.out.printf("%d / %s / %s / %s / %s / %d / %s\n", article.id, getBoardNameByBoardId(article.boardId),
+					article.regDate, article.updateDate, article.extra_writer, article.memberId, article.title);
 		}
 
 	}
@@ -116,7 +128,7 @@ public class ArticleController {
 
 		for (Article article : articles) {
 			System.out.printf("%d / %s / %s / %s / %s / %s\n", article.id, getBoardNameByBoardId(article.boardId),
-					article.regDate, article.updateDate, getMemberIdByMemberIndex(article.memberId), article.title);
+					article.regDate, article.updateDate, article.extra_writer, article.title);
 		}
 	}
 
@@ -138,17 +150,17 @@ public class ArticleController {
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
 		System.out.printf("작성자 : %s\n", getMemberIdByMemberIndex(article.memberId));
-		System.out.printf("== %d번 게시물 댓글 리스트 ==\n",inputid);
-		List<Reply> gotReplies = getArticleReplyById(inputid);
-		if(gotReplies.isEmpty()) {
+		
+		List<Reply> getReplies = getArticleReplyById(inputid);
+		if(getReplies.isEmpty()) {
 			System.out.println("게시물의 댓글이 없습니다.");
 			
 		}
 		else {
-			System.out.printf("%d번 게시물 댓글 리스트",inputid);
-			System.out.println("댓글번호  /   내용   / 작성자 ");
-		for(Reply reply : gotReplies) {
-			System.out.printf("%d  / %s /   %s\n",reply.id,reply.bodyR,getMemberIdByMemberIndex(reply.writeMemberId));
+			System.out.printf("== %d번 게시물 댓글 리스트 ==\n",inputid);
+			System.out.println("내용   / 작성자 ");
+		for(Reply reply : getReplies) {
+			System.out.printf("%s /    %s\n",reply.id,reply.bodyR,getMemberIdByMemberIndex(reply.writeMemberId));
 		}
 		}
 		

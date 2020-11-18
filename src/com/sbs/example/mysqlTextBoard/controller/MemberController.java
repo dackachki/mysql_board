@@ -7,7 +7,7 @@ import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Member;
 import com.sbs.example.mysqlTextBoard.service.MemberService;
 
-public class MemberController {
+public class MemberController extends Controller {
 	private static MemberService memberService;
 	Scanner sc = new Scanner(System.in);
 
@@ -118,7 +118,7 @@ public class MemberController {
 			else if (loginTryMember.memberPw.equals(passwd)) {
 				System.out.printf("%s 님 환영합니다.\n", loginTryMember.memberName);
 				Container.session.loginedId = loginTryMember.memberIndex;
-				System.out.println(Container.session.loginedId);
+
 				break;
 			}
 		}
@@ -126,16 +126,79 @@ public class MemberController {
 
 	public void memberJoin() {
 		System.out.println("== 회원 가입 ==");
-		System.out.printf("이름 입력 : ");
-		String name = sc.nextLine().trim();
-		if(name.length() == 0) {
-			System.out.println("아이디를 입력하세요.");
+		String name = "";
+		String memberId = "";
+		String memberPw = "";
+		int joinTryC = 0;
+		int joinMaxC = 3;
+		while (true) {
+			boolean joinNameOk = false;
+			if (joinTryC >= joinMaxC) {
+				System.out.println("잠시 후 다시 시도하세요.");
+				return;
+			}
+			System.out.printf("이름 입력 : ");
+			name = sc.nextLine().trim();
+			if (name.length() == 0) {
+				System.out.println("이름을 입력하세요.");
+				joinTryC++;
+				continue;
+			}
+			if (joinNameOk) {
+				break;
+			}
+			break;
 		}
-		System.out.printf("아이디 입력 : ");
-		String memberId = sc.nextLine().trim();
-		System.out.printf("비밀번호 입력 : ");
-		String memberPw = sc.nextLine().trim();
+		joinTryC = 0;
+		joinMaxC = 3;
+		while (true) {
+			boolean joinIdOk = false;
+			if (joinTryC >= joinMaxC) {
+				System.out.println("잠시 후 다시 시도하세요.");
+				return;
+			}
+			System.out.printf("아이디 입력 : ");
+			memberId = sc.nextLine().trim();
+			if (memberId.length() == 0) {
+				System.out.println("아이디을 입력하세요.");
+				joinTryC++;
+				continue;
 
+			}
+			for (Member member : getMembers()) {
+				if (member.memberId.equals(memberId)) {
+					System.out.println("이미 존재하는 아이디 입니다.");
+					joinTryC++;
+
+				}
+				continue;
+			}
+			
+			if (joinIdOk) {
+				break;
+			}
+			break;
+		}
+		joinTryC = 0;
+		joinMaxC = 3;
+		while (true) {
+			boolean joinPwOk = false;
+			if (joinTryC >= joinMaxC) {
+				System.out.println("잠시 후 다시 시도하세요.");
+				return;
+			}
+			System.out.printf("비밀번호 입력 : ");
+			memberPw = sc.nextLine().trim();
+			if (memberPw.length() == 0) {
+				System.out.println("비밀번호을 입력하세요.");
+				joinTryC++;
+				continue;
+			}
+			if (joinPwOk) {
+				break;
+			}
+			break;
+		}
 		memberService.memberJoin(name, memberId, memberPw);
 
 	}

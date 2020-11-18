@@ -21,7 +21,8 @@ public class ArticleDao {
 	public List<Article> getArticles() {
 		List<Article> articles = new ArrayList<>();
 		List<Map<String, Object>> articleListMap = MysqlUtil
-				.selectRows(new SecSql().append("SELECT * FROM article order by id desc"));
+				.selectRows(new SecSql().append("SELECT article.*,members.memberName as extra_writer from article join members where article.memberId = members.id " ));
+			
 
 		for (Map<String, Object> articleMap : articleListMap) {
 			Article article = new Article(articleMap);
@@ -63,14 +64,15 @@ public class ArticleDao {
 	public void doWrite(int memberId, int boardId, String title, String body) {
 
 		MysqlUtil.update(new SecSql().append(
-				"insert into article set title = ?,body = ?,updateDate = now(),memberId =? ,boardId = ?;", title, body,
+				"insert into article set title = ?,body = ?,memberId =? ,boardId = ?;", title, body,
 				memberId, boardId));
-		int lastArticleId = MysqlUtil.selectRowIntValue(new SecSql().append("SELECT COUNT(*) FROM article;"));
+		Map<String, Object> tableStatus = MysqlUtil.selectRow(new SecSql().append("SHOW TABLE STATUS WHERE NAME = 'article'"));
+		Object aaa= tableStatus.get("Auto_increment");
+		
+		System.out.printf("%d번 게시물이 생성되었습니다.\n", aaa);
 
-		System.out.printf("%d번 게시물이 생성되었습니다.\n", lastArticleId);
 
 	}
-
 	public void doWriteReply(int inputid, String replyBody) {
 
 		SecSql sql = new SecSql();
@@ -95,6 +97,14 @@ public class ArticleDao {
 		return repliesById;	
 			
 		}
+
+	public void doReplyModify(int inputid, int replyId) {
+		SecSql sql = new SecSql();
+		
+		sql.append("insert into replies set bodyR = ?,writeMemberId = ?,articleNumber = ?;",inputid);
+		System.out.printf("%d번 게시물에 댓글이 생성되었습니다.\n", inputid);
+		
+	}
 		
 	}
 

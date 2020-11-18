@@ -57,4 +57,9 @@ public class ArticleService {
 	public List<Reply> getArticleReplyById(int inputid) {
 			return articleDao.getArticleReplyById(inputid);
 	}
+
+	public void doReplyModify(int inputid, int replyId) {
+		articleDao.doReplyModify(inputid,replyId);
+		
+	}
 }
