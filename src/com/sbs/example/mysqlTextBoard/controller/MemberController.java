@@ -125,6 +125,10 @@ public class MemberController extends Controller {
 	}
 
 	public void memberJoin() {
+		if (Container.session.loginedId != 0) {
+			System.out.println("로그인 중인 아이디가 있습니다.");
+			return;
+		}
 		System.out.println("== 회원 가입 ==");
 		String name = "";
 		String memberId = "";

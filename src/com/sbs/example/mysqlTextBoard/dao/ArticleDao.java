@@ -74,13 +74,12 @@ public class ArticleDao {
 
 	}
 	public void doWriteReply(int inputid, String replyBody) {
-
-		SecSql sql = new SecSql();
 		int writeMemberId = Container.session.loginedId;
-		sql.append("insert into replies set bodyR = ?,writeMemberId = ?,articleNumber = ?;", replyBody, writeMemberId,
-				inputid);
+		MysqlUtil.update(new SecSql().append("insert into replies set bodyR = ?,writeMemberId = ?,articleNumber = ?;", replyBody, writeMemberId,
+				inputid));
+		
 		System.out.printf("%d번 게시물에 댓글이 생성되었습니다.\n", inputid);
-
+		
 	}
 
 	public List<Reply> getArticleReplyById(int inputid) {
@@ -98,11 +97,58 @@ public class ArticleDao {
 			
 		}
 
-	public void doReplyModify(int inputid, int replyId) {
-		SecSql sql = new SecSql();
+	public void doReplyModify(int replyId, String replyBody) {
+		MysqlUtil.update(new SecSql().append(
+				"update replies set bodyR = ?, updateDate = now() where id = ?;",replyBody,replyId));
 		
-		sql.append("insert into replies set bodyR = ?,writeMemberId = ?,articleNumber = ?;",inputid);
-		System.out.printf("%d번 게시물에 댓글이 생성되었습니다.\n", inputid);
+		/*SecSql sql = new SecSql();
+		sql.append("update replies set bodyR = ?, updateDate = now() where id = ?;",replyBody,replyId);
+		*/
+		System.out.printf("댓글이 수정되었습니다.\n");
+		
+	}
+
+	public void doReplyDelete(int replyId) {
+		MysqlUtil.update(new SecSql().append("delete from replies where id = ?;",replyId));
+		
+		/*SecSql sql = new SecSql();
+		
+		sql.append("delete from replies where id = ?;",replyId);
+		System.out.printf("게시물에 댓글이 삭제되었습니다.\n");
+		*/
+	}
+
+	public List<Reply> getAllReplies() {
+		List<Reply> allReplies = new ArrayList<>();
+		List<Map<String, Object>> replyListMap = MysqlUtil.selectRows(new SecSql().append("SELECT * FROM replies;"));
+
+		for (Map<String, Object> replyMap : replyListMap) {
+			Reply reply = new Reply(replyMap);
+			allReplies.add(reply);
+
+			}
+		
+		return allReplies;	
+			
+		}
+
+	public void articleRecommand(int inputid) {
+		List<Map<String, Object>> recommandListMap = MysqlUtil.selectRows(new SecSql().append("SELECT\r\n"
+				+ "article.id AS '게시물 번호',\r\n"
+				+ "r.articleRecommanded AS '추천여부',\r\n"
+				+ "GROUP_CONCAT(r.memberId) AS '추천회원'       \r\n"
+				+ "FROM article\r\n"
+				+ "JOIN recommand AS r\r\n"
+				+ "ON article.id = r.articleNumber\r\n"
+				+ "JOIN members AS m\r\n"
+				+ "ON m.id = r.memberId\r\n"
+				+ "GROUP BY article.id;"));	
+		System.out.println(recommandListMap);
+		
+		for (Map<String, Object> recommandMap : recommandListMap) {
+			Recommand recommand = new Recommand(recommandMap);
+			int articleId =(int) recommandMap.get("id");
+		}
 		
 	}
 		

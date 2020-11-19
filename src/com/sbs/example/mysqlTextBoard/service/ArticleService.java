@@ -58,8 +58,22 @@ public class ArticleService {
 			return articleDao.getArticleReplyById(inputid);
 	}
 
-	public void doReplyModify(int inputid, int replyId) {
-		articleDao.doReplyModify(inputid,replyId);
+	public void doReplyModify(int replyId, String replyBody) {
+		articleDao.doReplyModify(replyId,replyBody);
 		
 	}
+
+	public void doReplyDelete(int replyId) {
+		articleDao.doReplyDelete(replyId);
+		
+	}
+	public List<Reply> getAllReplies(){
+		return articleDao.getAllReplies();
+	}
+
+	public void articleRecommand(int inputid) {
+		articleDao.articleRecommand(inputid);
+		
+	}
+
 }

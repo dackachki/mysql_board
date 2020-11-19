@@ -21,7 +21,7 @@ public class Article {
 		this.body = (String) articleMap.get("body");
 		this.memberId = (int) articleMap.get("memberId");
 		this.boardId = (int) articleMap.get("boardId");
-		if(articleMap.containsKey(extra_writer)) {
+		if(articleMap.isEmpty() == false) {
 		this.extra_writer = (String)articleMap.get("extra_writer");
 	}
 	}
