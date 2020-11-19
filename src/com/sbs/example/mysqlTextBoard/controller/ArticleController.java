@@ -9,6 +9,7 @@ import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
 import com.sbs.example.mysqlTextBoard.dto.Board;
 import com.sbs.example.mysqlTextBoard.dto.Member;
+import com.sbs.example.mysqlTextBoard.dto.Recommand;
 import com.sbs.example.mysqlTextBoard.dto.Reply;
 import com.sbs.example.mysqlTextBoard.service.ArticleService;
 
@@ -78,38 +79,29 @@ public class ArticleController extends Controller {
 			doWriteReply(inputid);
 
 		} else if (cmd.equals("article replymodify")) {
-		
-			if (Container.session.loginedId == 0) {
-				System.out.println("로그인 후 다시 시도하세요.");
-				return;
-			}
-
-			
 			doReplyModify();
 
 		} else if (cmd.equals("article replydelete")) {
-			if (Container.session.loginedId == 0) {
-				System.out.println("로그인 후 다시 시도하세요.");
-				return;
-			}
+			
 			doReplyDelete();
 		}
 		else if(cmd.startsWith("article recommand")) {
-			if (Container.session.loginedId == 0) {
-				System.out.println("로그인 후 다시 시도하세요.");
-				return;
-			}
-			int inputid = Integer.parseInt(cmd.split(" ")[2]);
-			articleRecommand(inputid);
+			
+			
+			articleRecommand();
 			
 		}
 	}
 
-	private void articleRecommand(int inputid) {
-			articleService.articleRecommand(inputid);
+	private void articleRecommand() {
+			articleService.articleRecommand();
 	}
 
 	private void doReplyDelete() {
+		if (Container.session.loginedId == 0) {
+			System.out.println("로그인 후 다시 시도하세요.");
+			return;
+		}
 		System.out.println("== 댓글 삭제 ==");
 		System.out.println("== 회원님의 댓글 리스트 ==");
 		System.out.println("댓글ID /   생성일   / 게시물 번호 / 내용");
@@ -125,6 +117,10 @@ public class ArticleController extends Controller {
 	}
 
 	private void doReplyModify() {
+		if (Container.session.loginedId == 0) {
+			System.out.println("로그인 후 다시 시도하세요.");
+			return;
+		}
 		System.out.println("== 리플 수정 ==");
 		System.out.println("== 회원님의 댓글 리스트 ==");
 		System.out.println("댓글ID /   생성일   / 게시물 번호 / 내용");

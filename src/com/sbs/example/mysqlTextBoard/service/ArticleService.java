@@ -71,8 +71,8 @@ public class ArticleService {
 		return articleDao.getAllReplies();
 	}
 
-	public void articleRecommand(int inputid) {
-		articleDao.articleRecommand(inputid);
+	public void articleRecommand() {
+		articleDao.articleRecommand();
 		
 	}
 

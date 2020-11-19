@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
+import com.sbs.example.mysqlTextBoard.dto.Recommand;
 import com.sbs.example.mysqlTextBoard.dto.Reply;
 import com.sbs.example.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlutil.SecSql;
@@ -132,23 +133,18 @@ public class ArticleDao {
 			
 		}
 
-	public void articleRecommand(int inputid) {
-		List<Map<String, Object>> recommandListMap = MysqlUtil.selectRows(new SecSql().append("SELECT\r\n"
-				+ "article.id AS '게시물 번호',\r\n"
-				+ "r.articleRecommanded AS '추천여부',\r\n"
-				+ "GROUP_CONCAT(r.memberId) AS '추천회원'       \r\n"
-				+ "FROM article\r\n"
-				+ "JOIN recommand AS r\r\n"
-				+ "ON article.id = r.articleNumber\r\n"
-				+ "JOIN members AS m\r\n"
-				+ "ON m.id = r.memberId\r\n"
-				+ "GROUP BY article.id;"));	
+	public void articleRecommand() {
+		List<Recommand> recommandList = new ArrayList<>();
+		List<Map<String, Object>> recommandListMap = MysqlUtil.selectRows(new SecSql()
+				.append("select a.id as '게시물번호',group_concat(r.memberId) as '추천인', count(r.memberId) as '추천수' from recommand as r join article as a on a.id = r.articleNum group by a.id;"));	
 		System.out.println(recommandListMap);
 		
 		for (Map<String, Object> recommandMap : recommandListMap) {
 			Recommand recommand = new Recommand(recommandMap);
-			int articleId =(int) recommandMap.get("id");
+				recommandList.add(recommand);
+			
 		}
+		System.out.println(recommandList);
 		
 	}
 		
