@@ -60,6 +60,14 @@ public class BoardController extends Controller {
 			}
 		}
 	}
+	public String getBoardNameById(int boardId) {
+		for(Board board :getBoards()) {
+			if(board.id == boardId){
+				return board.boardName;
+			}
+		}
+			return null;
+	}
 
 	private boolean isBoardExist(String boardLF) {
 		for (Board board : getBoards()) {

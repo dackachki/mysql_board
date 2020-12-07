@@ -18,7 +18,19 @@ public class ArticleDao {
 	public int getArticleSize() {
 		return articleSize;
 	}
+	
+	public List<Article> getAllArticles() {
+		List<Article> articles = new ArrayList<>();
+		List<Map<String, Object>> articleListMap = MysqlUtil
+				.selectRows(new SecSql().append("SELECT * FROM article;"));
+				for (Map<String, Object> articleMap : articleListMap) {
+					Article article = new Article(articleMap);
+					articles.add(article);
+					
 
+				}
+				return articles;
+	}
 	public List<Article> getArticles() {
 		List<Article> articles = new ArrayList<>();
 		List<Map<String, Object>> articleListMap = MysqlUtil
@@ -68,9 +80,9 @@ public class ArticleDao {
 				"insert into article set title = ?,body = ?,memberId =? ,boardId = ?;", title, body,
 				memberId, boardId));
 		Map<String, Object> tableStatus = MysqlUtil.selectRow(new SecSql().append("SHOW TABLE STATUS WHERE NAME = 'article'"));
-		Object aaa= tableStatus.get("Auto_increment");
-		
-		System.out.printf("%d번 게시물이 생성되었습니다.\n", aaa);
+		String aaa= String.valueOf(tableStatus.get("Auto_increment"));
+		int articleNum = Integer.parseInt(aaa);
+		System.out.printf("%d번 게시물이 생성되었습니다.\n", articleNum -1);
 
 
 	}

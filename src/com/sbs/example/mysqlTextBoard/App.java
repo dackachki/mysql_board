@@ -15,7 +15,7 @@ public class App {
 			System.out.printf("명령어) ");
 			String cmd = sc.nextLine();
 			
-			MysqlUtil.setDBInfo("localhost", "namsw", "ska78", "a2");
+			MysqlUtil.setDBInfo("localhost", "sbsst", "sbs123414", "a2");
 			
 			boolean needToExit = false;
 			
@@ -48,6 +48,10 @@ public class App {
 
 		} else if (cmd.startsWith("board")) {
 			return Container.boardController;
+
+		}
+		else if (cmd.startsWith("html")) {
+			return Container.exportController;
 
 		}
 		return null;

@@ -10,8 +10,10 @@ import com.sbs.example.mysqlutil.MysqlUtil;
 import com.sbs.example.mysqlutil.SecSql;
 
 public class MemberDao {
+	
 	List<Member> members;
-
+	
+	
 	public List<Member> getMembers() {
 		members = new ArrayList<>();
 		List<Map<String, Object>> MembersMapList = MysqlUtil.selectRows(new SecSql().append("SELECT * FROM members"));
@@ -25,10 +27,6 @@ public class MemberDao {
 			
 			members.add(member);
 		}
-
-	
-		
-
 		return members;
 	}
 
@@ -59,5 +57,15 @@ public class MemberDao {
 		}
 		return null;
 	}
+
+	public String getMemberNameById(int memberId) {
+		for (Member member : members) {
+			if (member.memberIndex == memberId) {
+				return member.memberId;
+			}
+		}
+		return null;
+	}
+
 
 }

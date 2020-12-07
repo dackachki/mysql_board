@@ -46,7 +46,7 @@ public class ArticleService {
 	}
 
 	public List<Article> getAllArticles() {
-		return articleDao.getArticles();
+		return articleDao.getAllArticles();
 
 	}
 
