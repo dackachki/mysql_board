@@ -29,18 +29,46 @@ public class selectedBoardSummary {
 			System.out.println("보드 선택이 필요합니다.");
 			return;
 		}
-		List<Article> articles = articleService.getArticlesBySelectedBoardId();
 
 		exportService.makeHtml();
 		memberService.getMembers();
-		String presentBoard = boardController.getSelectedBoardName();
+		List<Article> articles = articleService.getArticlesBySelectedBoardId();
 		StringBuilder sb = new StringBuilder();
-		double size = articles.size();
-		int page = (int) Math.ceil(size / 10);
-		// filename
-
-		// content
+		int page = 2 ;
 		
+		while (page > 1) {
+			double size = articles.size();
+			page = (int) Math.ceil(size / 10);
+
+			int itemsInAPage = 10;
+			int startPos = (int) size - 1;
+			startPos -= (page - 1) * itemsInAPage;
+			int endPos = startPos - (itemsInAPage - 1);
+
+			if (endPos < 0) {
+				endPos = 0;
+			}
+
+			for (int i = page; i < 1; i--) {
+				StringBuilder[] sbl = new StringBuilder[page];
+				insertHtml(sbl[i], page, startPos, endPos);
+
+				
+				String fileName = boardController.getBoardNameById(Container.session.boardSelectedId) + " list-" + page
+						+ ".html";
+				String boardName = boardController.getBoardNameById(Container.session.boardSelectedId);
+				String boardpath = ("exportHtml/" + boardName + "\\");
+				util.mkdirs("exportHtml\"" + articleService.getArticlesBySelectedBoardId());
+				util.writeFileContents(boardpath + fileName, sb);
+				page--;
+			}
+
+		}
+	}
+
+	private void insertHtml(StringBuilder sb, int page, int startNum, int endNum) {
+
+		String presentBoard = boardController.getSelectedBoardName();
 		sb.append("<!DOCTYPE html>");
 		sb.append("<html lang=\"ko\">");
 
@@ -73,56 +101,24 @@ public class selectedBoardSummary {
 
 		sb.append("<body>");
 
-		
 		sb.append("<div class=\"top-info\"><h1>" + presentBoard + "게시판 페이지<h1></div>");
 		sb.append("<div class=\"pagenum\">");
-		for(int i =1; i <=page; i++) {
-			
-			sb.append("<a href=\"info list-"+i+".html\">"+i+"&nbsp;&nbsp;</a>");
-		}
-		sb.append("</div>");
-		
-		
-		
-			
-		
-		int itemsInAPage = 10;
-		int startPos = (int)size-1;
-		startPos -= (page - 1) * itemsInAPage;
-		int endPos = startPos - (itemsInAPage - 1);
+		List<Article> articles = articleService.getArticlesBySelectedBoardId();
+		for (int a = startNum; a >= endNum; a--) {
+			Article article = articles.get(a);
 
-		if (endPos < 0) {
-			endPos = 0;
-		}
-		while (page > 0) 
-		{
+			sb.append("<li>");
+			sb.append("<num>" + article.id + "번 게시물</num><br>");
+			sb.append("<a href=\"" + article.id + ".html\"> 제목:" + article.title + "</a>&nbsp;&nbsp;&nbsp;");
+			sb.append("<article> 내용 :" + article.body + "</article><hr><br>");
 
-			
-			for (int i = startPos; i >= endPos; i--) {
-				Article article = articles.get(i);
-				sb.append("<div>");
-				sb.append("<ul>");
-				sb.append("<li>");
-				sb.append("<num>" + article.id + "번 게시물</num><br>");
-				sb.append("<a href=\"" + article.id + ".html\"> 제목:" + article.title + "</a>&nbsp;&nbsp;&nbsp;");
-				sb.append("<article> 내용 :" + article.body + "</article><hr><br>");
-				sb.append("</li>");
-				sb.append("</ul>");
-				sb.append("\n");
-				
-				
+			sb.append("\n");
 
-			}
-			
-			String fileName = boardController.getBoardNameById(Container.session.boardSelectedId) + " list-" + page + ".html";
-			String boardName = boardController.getBoardNameById(Container.session.boardSelectedId);
-			String boardpath = ("exportHtml/" + boardName + "\\");
-			util.mkdirs("exportHtml\"" + articleService.getArticlesBySelectedBoardId());
-			util.writeFileContents(boardpath + fileName, sb);
-			
-			page--;
-			
 		}
+		sb.append("</li>");
+		sb.append("</ul>");
+		sb.append("<div>");
+		sb.append("<ul>");
 
 	}
 }
