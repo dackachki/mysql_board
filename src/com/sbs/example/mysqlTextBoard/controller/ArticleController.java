@@ -26,18 +26,16 @@ public class ArticleController extends Controller {
 
 		if (cmd.startsWith("article list")) {
 
-			if (cmd.split(" ").length <= 2) {
-				if (Container.session.boardSelectedId == 0) {
-					System.out.println("선택된 게시판이 없습니다.");
-					return;
-				}
-				showList();
-			}
-
-			else if (cmd.split(" ")[2].equals("all")) {
+			if (cmd.split(" ")[2].equals("all")) {
 				showAllList();
 			}
-
+			if (Container.session.boardSelectedId == 0) {
+				System.out.println("선택된 게시판이 없습니다.");
+				return;
+			}
+			else {
+			showList(cmd);
+			}
 		} else if (cmd.startsWith("article detail")) {
 			if (cmd.split(" ").length <= 2) {
 				System.out.println("게시물 번호를 입력하세요.");
@@ -82,19 +80,17 @@ public class ArticleController extends Controller {
 			doReplyModify();
 
 		} else if (cmd.equals("article replydelete")) {
-			
+
 			doReplyDelete();
-		}
-		else if(cmd.startsWith("article recommand")) {
-			
-			
+		} else if (cmd.startsWith("article recommand")) {
+
 			articleRecommand();
-			
+
 		}
 	}
 
 	private void articleRecommand() {
-			articleService.articleRecommand();
+		articleService.articleRecommand();
 	}
 
 	private void doReplyDelete() {
@@ -124,18 +120,17 @@ public class ArticleController extends Controller {
 		System.out.println("== 리플 수정 ==");
 		System.out.println("== 회원님의 댓글 리스트 ==");
 		System.out.println("댓글ID /   생성일   / 게시물 번호 / 내용");
-		if(getRepliesForLoginedMember().isEmpty()) {
+		if (getRepliesForLoginedMember().isEmpty()) {
 			System.out.println("작성한 댓글이 없습니다.");
 			return;
-		}
-		else {
-			for(Reply reply : getRepliesForLoginedMember()) {
+		} else {
+			for (Reply reply : getRepliesForLoginedMember()) {
 				System.out.printf("%d /%s   / %d   /  %s\n", reply.id, reply.regDate, reply.articleNumber, reply.bodyR);
 			}
 		}
 		System.out.printf("수정할 댓글 id : ");
 		int replyId = sc.nextInt();
-		 sc.nextLine(); 
+		sc.nextLine();
 		System.out.printf("수정할 댓글 내용 : ");
 		String replyBody = sc.nextLine();
 		articleService.doReplyModify(replyId, replyBody);
@@ -145,13 +140,12 @@ public class ArticleController extends Controller {
 	private List<Reply> getRepliesForLoginedMember() {
 		List<Reply> repliesByLoginedMember = new ArrayList<>();
 		int getMemberId = Container.session.loginedId;
-		for(Reply reply : articleService.getAllReplies()) {
-			if(reply.writeMemberId == getMemberId)
+		for (Reply reply : articleService.getAllReplies()) {
+			if (reply.writeMemberId == getMemberId)
 				repliesByLoginedMember.add(reply);
 		}
 		return repliesByLoginedMember;
 	}
-		
 
 	private void doWriteReply(int inputid) {
 		System.out.println("== 게시물 댓글 입력 ==");
@@ -194,14 +188,39 @@ public class ArticleController extends Controller {
 
 	}
 
-	public void showList() {
-		System.out.println("== 게시물 리스트 ==");
+	public void showList(String cmd) {
 
+		String[] commandBits = cmd.split(" ");
 		List<Article> articles = articleService.getArticlesBySelectedBoardId();
+		int page = 1;
 
+		if (commandBits.length >= 3) {
+			page = Integer.parseInt(commandBits[2]);
+		}
+
+		if (page <= 1) {
+			page = 1;
+		}
+
+		int itemsInAPage = 10;
+		int startPos = articles.size() - 1;
+		startPos -= (page - 1) * itemsInAPage;
+		int endPos = startPos - (itemsInAPage - 1);
+
+		if (endPos < 0) {
+			endPos = 0;
+		}
+
+		if (startPos < 0) {
+			System.out.printf("%d페이지는 존재하지 않습니다.\n", page);
+			return;
+		}
+
+		System.out.printf("== %d번 페이지 게시물 리스트 ==\n", page);
 		System.out.println("번호 / 분류 /         작성일       /         수정일        / 작성자 / 제목");
 
-		for (Article article : articles) {
+		for (int i = startPos; i >= endPos; i--) {
+			Article article = articles.get(i);
 			System.out.printf("%d / %s / %s / %s / %s / %s\n", article.id, getBoardNameByBoardId(article.boardId),
 					article.regDate, article.updateDate, article.extra_writer, article.title);
 		}

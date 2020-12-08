@@ -4,7 +4,8 @@ import java.util.Scanner;
 
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.service.ExportService;
-import Html.free_board;
+
+import Html.selectedBoardSummary;
 
 
 
@@ -13,10 +14,10 @@ public class ExportController extends Controller {
 	private String command;
 	
 	private ExportService exportService;
-	private free_board free;
+	private selectedBoardSummary boardSummary;
 
 	public ExportController() {
-		free = new free_board();
+		boardSummary = new selectedBoardSummary();
 		exportService = Container.exportService;
 	}
 
@@ -28,7 +29,7 @@ public class ExportController extends Controller {
 		case "html":
 			doHtml();
 			break;
-		case"htmlbyboard":
+		case"html list":
 			doHtmlbyboard();
 			break;
 		default:
@@ -42,7 +43,7 @@ public class ExportController extends Controller {
 		exportService.makeHtml();
 	}
 	private void doHtmlbyboard() {
-		free.makeHtmlOfSelectedBoard();
+		boardSummary.makeHtmlOfSelectedBoard();
 	}
 
 }

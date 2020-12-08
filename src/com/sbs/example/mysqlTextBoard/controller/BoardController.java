@@ -82,4 +82,13 @@ public class BoardController extends Controller {
 	public List<Board> getBoards() {
 		return boardService.getBoards();
 	}
+	public String getSelectedBoardName() {
+		
+		for(Board board : getBoards()) {
+			if(board.id == Container.session.boardSelectedId)
+			return board.boardName;
+		}
+		return null;
+		
+	}
 }
