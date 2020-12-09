@@ -19,13 +19,25 @@ public class ExportService {
 	}
 
 	public void makeHtml() {
-		List<Article> articles = articleService.getAllArticles();
-
+		int previusId = 1;
+		int nextId = 0;
+		List<Article> articles = articleService.getArticlesBySelectedBoardId();
+		if(Container.session.boardSelectedId ==0) {
+			System.out.println("게시판 선택 후 다시 시도하세요");
+			return;
+		}
+		int[] articlesId = new int[articles.size()];
+		
+		for(int i = 0; i <= articles.size()-1;i++) {
+			
+			articlesId[i] = articles.get(i).id;
+		}
 		for (Article article : articles) {
+			
 			memberService.getMembers();
 			String writerName = memberService.getMemberNameById(article.memberId);
 			//filename
-			String fileName = article.id + ".html";
+			String fileName = boardController.getBoardNameById(article.boardId)+"_"+article.id + ".html";
 			//content
 			String html = "<meta charset=\"UTF-8\">";
 			html += "<div>번호 : " + article.id + "</div>";
@@ -33,11 +45,26 @@ public class ExportService {
 			html += "<div>작성자 : " + writerName + "</div>";
 			html += "<div>제목 : " + article.title + "</div>";
 			html += "<div>내용 : " + article.body + "</div>";
-			if (article.id > 1) {
-				html += "<div><a href=\"" + (article.id - 1) + ".html\">이전글</a></div>";
-			}
+			html +="\n";
 			
-			html += "<div><a href=\"" + (article.id + 1) + ".html\">다음글</a></div>";
+			if(previusId >= articles.size()) {
+				previusId = articles.size();
+			}
+			if(nextId >= articles.size()) {
+				nextId = articles.size();
+			}
+			if (article.id > articlesId[0]) {
+				html += "<div><a href=\"" +boardController.getBoardNameById(article.boardId)+"_"+(articles.get(previusId-1).id)+ ".html\">이전글</a></div>";
+				previusId ++;	
+			}
+			html +="\n";
+			if(article.id < articlesId[articles.size()-1]) {
+			html += "<div><a href=\"" +boardController.getBoardNameById(article.boardId)+"_"+(articles.get(nextId+1).id)+ ".html\">다음글</a></div>";
+				nextId++;
+			}
+			html +="\n";
+			
+			
 			String boardName = boardController.getBoardNameById(article.boardId);
 			String boardpath = ("exportHtml/"+boardName+"\\");
 			

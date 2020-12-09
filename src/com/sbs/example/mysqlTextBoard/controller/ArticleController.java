@@ -26,9 +26,6 @@ public class ArticleController extends Controller {
 
 		if (cmd.startsWith("article list")) {
 
-			if (cmd.split(" ")[2].equals("all")) {
-				showAllList();
-			}
 			if (Container.session.boardSelectedId == 0) {
 				System.out.println("선택된 게시판이 없습니다.");
 				return;
@@ -86,6 +83,9 @@ public class ArticleController extends Controller {
 
 			articleRecommand();
 
+		}
+		else if(cmd.equals("article all")) {
+			showAllList();
 		}
 	}
 
@@ -195,6 +195,7 @@ public class ArticleController extends Controller {
 		int page = 1;
 
 		if (commandBits.length >= 3) {
+			
 			page = Integer.parseInt(commandBits[2]);
 		}
 

@@ -22,7 +22,7 @@ public class ArticleDao {
 	public List<Article> getAllArticles() {
 		List<Article> articles = new ArrayList<>();
 		List<Map<String, Object>> articleListMap = MysqlUtil
-				.selectRows(new SecSql().append("SELECT * FROM article;"));
+				.selectRows(new SecSql().append("SELECT article.*,members.memberName as extra_writer FROM article join members where article.memberId = members.id;"));
 				for (Map<String, Object> articleMap : articleListMap) {
 					Article article = new Article(articleMap);
 					articles.add(article);
