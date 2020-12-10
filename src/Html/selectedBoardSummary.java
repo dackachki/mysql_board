@@ -5,6 +5,7 @@ import java.util.List;
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.controller.BoardController;
 import com.sbs.example.mysqlTextBoard.dto.Article;
+import com.sbs.example.mysqlTextBoard.dto.Board;
 import com.sbs.example.mysqlTextBoard.service.ArticleService;
 import com.sbs.example.mysqlTextBoard.service.ExportService;
 import com.sbs.example.mysqlTextBoard.service.MemberService;
@@ -23,6 +24,15 @@ public class selectedBoardSummary {
 		exportService = Container.exportService;
 	}
 
+	public void makeAllBoardHtml() {
+		for (Board board : boardController.getBoards()) {
+			Container.session.boardSelectedId = board.id;
+			makeHtmlOfSelectedBoard();
+			System.out.printf("%s 게시판 html이 생성되었습니다.\n", board.boardName);
+		}
+		Container.session.boardSelectedId = 0;
+	}
+
 	public void makeHtmlOfSelectedBoard() {
 
 		if (Container.session.boardSelectedId == 0) {
@@ -33,14 +43,13 @@ public class selectedBoardSummary {
 		exportService.makeHtml();
 		memberService.getMembers();
 		List<Article> articles = articleService.getArticlesBySelectedBoardId();
-		
 
 		double size = articles.size();
 		int page = (int) Math.ceil(size / 10);
 		String BoardName = boardController.getBoardNameById(Container.session.boardSelectedId);
 		int pageLastNumber = page;
 		for (int i = 0; i < page; i++) {
-			
+
 			int itemsInAPage = 10;
 			int startPos = (int) size - 1;
 			startPos -= (page - 1) * itemsInAPage;
@@ -51,7 +60,7 @@ public class selectedBoardSummary {
 
 			StringBuilder[] sbl = new StringBuilder[page];
 			sbl[i] = new StringBuilder();
-			insertHtml(sbl[i], page, startPos, endPos,BoardName,pageLastNumber);
+			insertHtml(sbl[i], page, startPos, endPos, BoardName, pageLastNumber);
 
 			String fileName = boardController.getBoardNameById(Container.session.boardSelectedId) + "list-" + page
 					+ ".html";
@@ -65,44 +74,33 @@ public class selectedBoardSummary {
 
 	}
 
-	private void insertHtml(StringBuilder sb, int page, int startNum, int endNum,String BoardName,int pageLastNumber) {
-		
-		String presentBoard = boardController.getSelectedBoardName();
-		
-		sb.append("body,ul,li { font-size:1rem;list-style:none;margin:0;padding:0;"
-				+ "background-color:black; color:white;}");
-		sb.append("a { text-decoration:none; color:inherit;}");
-		sb.append("div> ul li>a { ");
-		sb.append("font-size:2rem" + "text-decoration:underline;}");
-		sb.append(".pagenum {\r\n" + "   width:100%;\r\n" + "   height:100px;\r\n" + "   position:absolute;\r\n"
-				+ "   bottom:0;\r\n" + "   background:black;\r\n" + "  text-align: center;\r\n" + "  color: white;\r\n"
-				+ "  font-size:3rem;\r\n;}");
-		sb.append(".hyperlink_page{\r\n"
-				+ "  font-weight: bold;\r\n"
-				+ "  font-size: 2rem;\r\n"
-				+ "  display: inline-block;\r\n"
-				+ "  margin-left: :30px;\r\n"
-				+ "  margin-right:30px;"
-				+ "}");
-		sb.append("\n");
-		sb.append("</style>");
-		sb.append("\n");
-		sb.append("</head>");
-		sb.append("\n");
-		sb.append("<body>");
+	private void insertHtml(StringBuilder sb, int page, int startNum, int endNum, String BoardName,
+			int pageLastNumber) {
 
-		sb.append("<div class=\"top-info\"><h1>" + presentBoard + "게시판"+page+"페이지<h1></div>");
-		
-		
+		String presentBoard = boardController.getSelectedBoardName();
+		List<Board> boards = boardController.getBoards();
+		String ArticleBoardsList = "";
+		for (Board board : boards) {
+			ArticleBoardsList += "<li><a href=\"/./work/work/mysql-text-board/exportHtml/" + board.boardName + "/"
+					+ board.boardName + "list-" + page + ".html\" class = \"block\"><span>" + board.boardName
+					+ "</span></a></li>";
+		}
+		String head = util.getFileContents("html_template/header.html");
+		head = head.replace("[Article_List_Part]", ArticleBoardsList);
+		sb.append(head);
+
+		sb.append("<div class=\"top-info\"><h1>" + presentBoard + "게시판" + page + "페이지<h1></div>");
+
 		List<Article> articles = articleService.getArticlesBySelectedBoardId();
 		for (int a = startNum; a >= endNum; a--) {
 			Article article = articles.get(a);
 
 			sb.append("<li>");
 			sb.append("<num>" + article.id + "번 게시물</num><br>");
-			sb.append("<a href=\"" + article.id + ".html\"> 제목:" + article.title + "</a>&nbsp;&nbsp;&nbsp;");
+			sb.append("<a href=\"" + BoardName + "_" + article.id + ".html\"> 제목:" + article.title
+					+ "</a>&nbsp;&nbsp;&nbsp;");
 			sb.append("<article> 내용 :" + article.body + "</article><br>");
-			sb.append("<div> 작성 날짜 :"+article.regDate+"</div><hr><br>");
+			sb.append("<div> 작성 날짜 :" + article.regDate + "</div><hr><br>");
 
 			sb.append("\n");
 
@@ -110,13 +108,15 @@ public class selectedBoardSummary {
 		sb.append("</li>");
 		sb.append("</ul>");
 		sb.append("\n");
-		sb.append("<div>");
-		
+		sb.append("<div class=\"hyperlink_page\">");
+
 		sb.append("<ul>");
 		sb.append("\n");
-		for(int i =1; i <=pageLastNumber;i++) {
-		sb.append("<div class=\"hyperlink_page\"> <a href = \""+BoardName+"list-"+i+".html\">"+i+"</a></div>");
-		sb.append("\n");
-	}
+		for (int i = 1; i <= pageLastNumber; i++) {
+			sb.append("<div><a href = \"" + BoardName + "list-" + i + ".html\">" + i + "</a></div>");
+			sb.append("</ul></div>");
+			sb.append("\n");
+		}
+		sb.append(util.getFileContents("html_template/footer.html"));
 	}
 }

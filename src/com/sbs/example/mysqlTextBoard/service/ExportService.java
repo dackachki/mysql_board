@@ -39,7 +39,10 @@ public class ExportService {
 			//filename
 			String fileName = boardController.getBoardNameById(article.boardId)+"_"+article.id + ".html";
 			//content
+			
 			String html = "<meta charset=\"UTF-8\">";
+			String head =util.getFileContents("html_template/header.html"); 
+			html +=head;
 			html += "<div>번호 : " + article.id + "</div>";
 			html += "<div>날짜 : " + article.regDate + "</div>";
 			html += "<div>작성자 : " + writerName + "</div>";

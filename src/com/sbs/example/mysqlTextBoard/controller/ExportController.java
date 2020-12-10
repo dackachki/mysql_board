@@ -32,10 +32,18 @@ public class ExportController extends Controller {
 		case"html list":
 			doHtmlbyboard();
 			break;
+		case "html all":
+			makeAllBoardHtml();
+			break;
 		default:
 			System.out.println("존재하지 않는 명령어 입니다.");
 			break;
 		}
+	}
+
+	private void makeAllBoardHtml() {
+		boardSummary.makeAllBoardHtml();
+		
 	}
 
 	private void doHtml() {
