@@ -26,32 +26,29 @@
   font-family: 'LotteMartDream';
   font-style: normal;
   font-weight: 400;
-  src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff') format('woff');
+  src: url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff2') format('woff2'), url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff') format('woff');
 }
 @font-face {
   font-family: 'LotteMartDream';
   font-style: normal;
   font-weight: 700;
-  src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff') format('woff');
+  src: url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff2') format('woff2'), url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff') format('woff');
 }
 @font-face {
   font-family: 'LotteMartDream';
   font-style: normal;
   font-weight: 300;
-  src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff') format('woff');
+  src: url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff2') format('woff2'), url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff') format('woff');
 }
 html {
   font-family: 'LotteMartDream', sans-serif;
 }
 
-
 /* 노말라이즈 */
-body, ul, li {
+body, ul, li, h1, h2, h3 {
   margin:0;
   padding:0;
   list-style:none;
-  background-color:black;
-  color:white;
 }
 a {
   color:inherit;
@@ -71,9 +68,29 @@ a {
   align-items:center;
 }
 
+.flex-wrap {
+  flex-wrap:wrap;
+}
+
+.flex-column {
+  flex-direction:column;
+}
+
+.flex-grow-1 {
+  flex-grow:1;
+}
+
 .con {
   margin-left:auto;
   margin-right:auto;
+}
+
+.min-height-100vh {
+  min-height:100vh;
+}
+
+.bg-pink {
+  background-color:pink;
 }
 
 .bd-green {
@@ -97,6 +114,12 @@ a {
 }
 
 /* 커스텀 */
+:root {
+  --article-list__cell-id__width:100px;
+  --article-list__cell-reg-date__width:220px;
+  --article-list__cell-writer__width:150px;
+  --article-list__cell-title__width:calc(100% - var(--article-list__cell-id__width) - var(--article-list__cell-reg-date__width) - var(--article-list__cell-writer__width));
+}
 .con-min-width {
   min-width:1200px;
 }
@@ -116,6 +139,10 @@ a {
 
 .logo > span > span {
   color:red;
+}
+
+.logo--mini {
+  font-size:2rem;
 }
 /* 로고 끝 */
 
@@ -161,7 +188,7 @@ a {
   background-color:black;
   border:10px solid black;
   border-top-width:0;
-  border-radius:0 0 10px 10px;
+  border-radius:0 0 20px 20px;
 }
 
 .menu-bar__menu-1 > ul > li:hover > ul {
@@ -172,6 +199,101 @@ a {
   border-radius:0 0 10px 10px;
 }
 /* 메뉴바 끝 */
+
+/* 타이틀바 시작 */
+.title-bar {
+  margin-top:30px;
+  margin-bottom:30px;
+}
+/* 타이틀바 끝 */
+
+/* 하단바 시작 */
+.bottom-bar {
+  margin-top:30px;
+  background-color:black;
+  color:white;
+  padding-top:30px;
+  padding-bottom:30px;
+}
+
+.bottom-bar__site-info {
+  margin-left:20px;
+}
+main > .hyperlink_page{
+  text-align:center;
+
+}
+main> .hyperlink_page li{
+ display:inline-block;
+  margin:0 30px;
+  
+  
+}
+main> .hyperlink_page li a{
+  
+  padding:0 10px;
+  font-size:1.5rem;
+  
+}
+
+main> .hyperlink_page li:hover a{
+  text-decoration:underline;
+}
+/* 리스트 */
+
+.article-list > * > div::after {
+  content:"";
+  display:block;
+  clear:both;
+}
+
+.article-list > header > div > div {
+  position:relative;
+}
+
+.article-list > header > div > div::after {
+  content:"";
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  right:0;
+  width:1px;
+  height:10px;
+  background-color:black;
+}
+
+.article-list > * > div > div {
+  float:left;
+  box-sizing:border-box;
+  text-align:center;
+  padding-top:10px;
+  padding-bottom:10px;
+}
+
+.article-list__cell-id {
+  width:var(--article-list__cell-id__width);
+}
+
+.article-list__cell-reg-date {
+  width:var(--article-list__cell-reg-date__width);
+}
+
+.article-list__cell-writer {
+  width:var(--article-list__cell-writer__width);
+}
+
+.article-list__cell-title {
+  width:var(--article-list__cell-title__width);
+}
+
+.article-list > main .article-list__cell-title {
+  text-align:left;
+  padding-left:10px;
+}
+
+.article-list > main > div {
+  border-top:1px solid black;
+}
 </style>
 
   
@@ -183,70 +305,109 @@ a {
 <!-- 폰트어썸 불러오기 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
-<!-- 로고바 시작 -->
-<header class="logo-bar con-min-width">
-  <div class="con height-100p flex flex-jc-c">
-    <a href="#" class="logo flex flex-ai-c">
-      <i class="fab fa-jenkins"></i>
-      <span>
-        Develo<span>p</span>ers
-      </span>
-    </a>
-  </div>
-</header>
-<!-- 로고바 끝 -->
+<div class="body-content min-height-100vh flex flex-column">
+  <!-- 로고바 시작 -->
+  <header class="logo-bar con-min-width">
+    <div class="con height-100p flex flex-jc-c">
+      <a href="#" class="logo flex flex-ai-c">
+        <i class="fab fa-jenkins"></i>
+        <span>
+          Develo<span>p</span>ers
+        </span>
+      </a>
+    </div>
+  </header>
+  <!-- 로고바 끝 -->
 
-<!-- 메뉴바 시작 -->
-<header class="menu-bar con-min-width">
-  <div class="con height-100p">
-    <nav class="menu-bar__menu-1">
-      <ul class="flex">
-        <li>
-          <a href="./" class="block">
-            <i class="fas fa-home"></i>
-            <span>HOME</span>
-          </a>
-        </li>
-        <li>
-          <a class="block">
-            <i class="fas fa-list"></i>
-            <span>ARTICLES</span>
-          </a>
-          <ul>
-           		[Article_List_Part]
-          </ul>
-        </li>
-        <li>
-          <a class="block">
-            <i class="fas fa-link"></i>
-            <span>LINK</span>
-          </a>
-          <ul>
-            <li>
-              <a href="https://jhs512.github.io/blog/" target="_blank" class="block">
-                <i class="fab fa-blogger-b"></i>
-                <span>BLOG</span>
-              </a>
-            </li>
-            <li>
-              <a href="https://github.com/" target="_blank" class="block">
-                <i class="fab fa-github"></i>
-                <span>GITHUB</span>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <a href="stat.html" class="block">
-            <i class="fas fa-chart-pie"></i>
-            <span>STATISTICS</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-</header>
-<!-- 메뉴바 끝 -->
-</header>
-  
+  <!-- 메뉴바 시작 -->
+  <header class="menu-bar con-min-width">
+    <div class="con height-100p">
+      <nav class="menu-bar__menu-1">
+        <ul class="flex">
+          <li>
+            <a href="./" class="block">
+              <i class="fas fa-home"></i>
+              <span>HOME</span>
+            </a>
+          </li>
+          <li>
+            <a class="block">
+              <i class="fas fa-list"></i>
+              <span>ARTICLES</span>
+            </a>
+            <ul>
+              [Article_List_Part] 
+            </ul>
+          </li>
+          <li>
+            <a class="block">
+              <i class="fas fa-link"></i>
+              <span>LINK</span>
+            </a>
+            <ul>
+              <li>
+                <a href="https://jhs512.github.io/blog/" target="_blank" class="block">
+                  <i class="fab fa-blogger-b"></i>
+                  <span>BLOG</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/" target="_blank" class="block">
+                  <i class="fab fa-github"></i>
+                  <span>GITHUB</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="stat.html" class="block">
+              <i class="fas fa-chart-pie"></i>
+              <span>STATISTICS</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <!-- 메뉴바 끝 -->
+
+  <main class="flex-grow-1">
+    <section class="title-bar con-min-width">
+     	[Directory_Show]
+    </section>
+
+    <section class="section-1 con-min-width">
+      <div class="con">
+      
+  <section class="section-1 con-min-width">
+    <div class="con">
+      <div class="article-list">
+        <header>
+          <div>
+            <div class="article-list__cell-id">번호</div>
+            <div class="article-list__cell-reg-date">날짜</div>
+            <div class="article-list__cell-writer">작성자</div>
+            <div class="article-list__cell-title">제목</div>
+          </div>
+        </header>
+        [Article_List]
+      </div>
+    </section>
+  </main>
+
+  <footer class="bottom-bar con-min-width">
+    <div class="con flex flex-ai-c">
+      <a href="#" class="logo logo--mini flex flex-ai-c">
+        <i class="fab fa-jenkins"></i>
+        <span>
+          Develo<span>p</span>ers
+        </span>
+      </a>
+
+      <div class="bottom-bar__site-info">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum eos ipsum necessitatibus doloremque quos voluptate debitis earum aut a consequuntur explicabo deleniti qui eius facere, harum error eveniet vel laudantium.
+      </div>
+    </div>
+  </footer>
+</div>
   

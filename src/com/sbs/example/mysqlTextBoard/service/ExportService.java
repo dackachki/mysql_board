@@ -5,17 +5,23 @@ import java.util.List;
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.controller.BoardController;
 import com.sbs.example.mysqlTextBoard.dto.Article;
+import com.sbs.example.mysqlTextBoard.dto.Board;
 import com.sbs.java.ssg.util.util;
+
+import Html.selectedBoardSummary;
+
 
 public class ExportService {
 	ArticleService articleService;
 	MemberService memberService;
 	BoardController boardController;
+	selectedBoardSummary summary;
 
 	public ExportService() {
 		articleService = Container.articleService;
 		memberService = Container.memberService;
 		boardController = new BoardController();
+		summary = new selectedBoardSummary();
 	}
 
 	public void makeHtml() {
@@ -40,16 +46,29 @@ public class ExportService {
 			String fileName = boardController.getBoardNameById(article.boardId)+"_"+article.id + ".html";
 			//content
 			
-			String html = "<meta charset=\"UTF-8\">";
+			String html="";
+			String articleDetail="";
 			String head =util.getFileContents("html_template/header.html"); 
-			html +=head;
-			html += "<div>번호 : " + article.id + "</div>";
-			html += "<div>날짜 : " + article.regDate + "</div>";
-			html += "<div>작성자 : " + writerName + "</div>";
-			html += "<div>제목 : " + article.title + "</div>";
-			html += "<div>내용 : " + article.body + "</div>";
-			html +="\n";
 			
+			articleDetail += "<div>번호 : " + article.id + "</div>";
+			articleDetail += "<div>날짜 : " + article.regDate + "</div>";
+			articleDetail += "<div>작성자 : " + writerName + "</div>";
+			articleDetail += "<div>제목 : " + article.title + "</div>";
+			articleDetail += "<div>내용 : " + article.body + "</div>";
+			articleDetail +="\n";
+			head = head.replace("[Article_List]", articleDetail);
+			String presentDirectory =boardController.getBoardNameById(article.boardId)+"게시판"+article.id+"번 게시물";
+			head = head.replace("[Directory_Show", presentDirectory);
+			
+			List<Board> boards = boardController.getBoards();
+			String ArticleBoardsList = "";
+			for (Board board : boards) {
+				ArticleBoardsList += "<li><a href=\"/./work/work/mysql-text-board/exportHtml/" + board.boardName + "/"
+						+ board.boardName + "list-" + 1 + ".html\" class = \"block\"><span>" + board.boardName
+						+ "</span></a></li>";
+			}
+			head = head.replace("[Article_List_Part]", ArticleBoardsList);
+			html +=head;
 			if(previusId >= articles.size()) {
 				previusId = articles.size();
 			}

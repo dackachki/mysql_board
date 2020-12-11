@@ -16,13 +16,16 @@ public class selectedBoardSummary {
 	MemberService memberService;
 	BoardController boardController;
 	ExportService exportService;
+	
 
 	public selectedBoardSummary() {
 		articleService = Container.articleService;
 		memberService = Container.memberService;
 		boardController = new BoardController();
 		exportService = Container.exportService;
+		
 	}
+	
 
 	public void makeAllBoardHtml() {
 		for (Board board : boardController.getBoards()) {
@@ -40,8 +43,7 @@ public class selectedBoardSummary {
 			return;
 		}
 
-		exportService.makeHtml();
-		memberService.getMembers();
+		
 		List<Article> articles = articleService.getArticlesBySelectedBoardId();
 
 		double size = articles.size();
@@ -60,7 +62,11 @@ public class selectedBoardSummary {
 
 			StringBuilder[] sbl = new StringBuilder[page];
 			sbl[i] = new StringBuilder();
+			 
 			insertHtml(sbl[i], page, startPos, endPos, BoardName, pageLastNumber);
+			
+			exportService.makeHtml();
+			memberService.getMembers();
 
 			String fileName = boardController.getBoardNameById(Container.session.boardSelectedId) + "list-" + page
 					+ ".html";
@@ -74,49 +80,91 @@ public class selectedBoardSummary {
 
 	}
 
-	private void insertHtml(StringBuilder sb, int page, int startNum, int endNum, String BoardName,
+	public void insertHtml(StringBuilder sb, int page, int startNum, int endNum, String BoardName,
 			int pageLastNumber) {
 
 		String presentBoard = boardController.getSelectedBoardName();
 		List<Board> boards = boardController.getBoards();
 		String ArticleBoardsList = "";
+		
 		for (Board board : boards) {
 			ArticleBoardsList += "<li><a href=\"/./work/work/mysql-text-board/exportHtml/" + board.boardName + "/"
-					+ board.boardName + "list-" + page + ".html\" class = \"block\"><span>" + board.boardName
+					+ board.boardName + "list-" + 1 + ".html\" class = \"block\"><span>" + board.boardName
 					+ "</span></a></li>";
 		}
 		String head = util.getFileContents("html_template/header.html");
 		head = head.replace("[Article_List_Part]", ArticleBoardsList);
-		sb.append(head);
-
-		sb.append("<div class=\"top-info\"><h1>" + presentBoard + "게시판" + page + "페이지<h1></div>");
-
+		
+		
+		String directory=" <section class=\"title-bar con-min-width\">\r\n"
+				+ "      <h1 class=\"con\">\r\n"
+				+ 		getIconByBoardName(presentBoard)
+				+ "        <span>"+presentBoard+"게시판"+"</span>\r\n"
+				+ "      </h1>\r\n"
+				+ "    </section>";
+		head = head.replace("[Directory_Show]", directory);
+		
 		List<Article> articles = articleService.getArticlesBySelectedBoardId();
+		StringBuilder Listsb = new StringBuilder();
+		 Listsb.append("<main>");
+		 Listsb.append("\n");
 		for (int a = startNum; a >= endNum; a--) {
 			Article article = articles.get(a);
-
-			sb.append("<li>");
-			sb.append("<num>" + article.id + "번 게시물</num><br>");
-			sb.append("<a href=\"" + BoardName + "_" + article.id + ".html\"> 제목:" + article.title
-					+ "</a>&nbsp;&nbsp;&nbsp;");
-			sb.append("<article> 내용 :" + article.body + "</article><br>");
-			sb.append("<div> 작성 날짜 :" + article.regDate + "</div><hr><br>");
-
-			sb.append("\n");
-
+			 Listsb.append("<div>");
+			 Listsb.append("\n");
+			 Listsb.append("<div class=\"article-list__cell-id\">"+article.id+"</div>");
+			 Listsb.append("\n");
+			 Listsb.append("<div class=\"article-list__cell-reg-date\">"+article.regDate+"</div>");   
+			 Listsb.append("\n");
+			 Listsb.append("<div class=\"article-list__cell-writer\">"+article.extra_writer+"</div>");  
+			 Listsb.append("\n");
+			 Listsb.append("<div class=\"article-list__cell-title\"><a href=\""+presentBoard+"_"+article.id+".html\">"+article.title);
+			 Listsb.append("\n");
+	         Listsb.append("</a>");  
+	         Listsb.append("</div>");
+	         Listsb.append("</div>");
+	         
 		}
-		sb.append("</li>");
-		sb.append("</ul>");
-		sb.append("\n");
-		sb.append("<div class=\"hyperlink_page\">");
+		Listsb.append("</div>");
+		Listsb.append("</main>");
+		
+		Listsb.append("</section>");
+		Listsb.append("</div>"); 
+		Listsb.append("</div>"); 
+		Listsb.append("</section>");
+		Listsb.append("</main>");
+		
+		Listsb.append("<div class=\"hyperlink_page\">");
 
-		sb.append("<ul>");
-		sb.append("\n");
+		Listsb.append("<ul>");
+		
+		
 		for (int i = 1; i <= pageLastNumber; i++) {
-			sb.append("<div><a href = \"" + BoardName + "list-" + i + ".html\">" + i + "</a></div>");
-			sb.append("</ul></div>");
-			sb.append("\n");
+			Listsb.append("<li>");
+			Listsb.append("<a href = \"" + BoardName + "list-" + i + ".html\">" + i + "</a>");
+			Listsb.append("</li>");
+			
 		}
+		Listsb.append("</ul>");
+		Listsb.append("</div>");
+		String articleListHtml = Listsb.toString();
+		head = head.replace("[Article_List]", articleListHtml);
 		sb.append(util.getFileContents("html_template/footer.html"));
+		
+		
+		sb.append(head);
+	}
+	private String getIconByBoardName(String boardName) {
+		String Icon = "";
+		if(boardName.startsWith("free")) {
+		Icon="<i class=\"fas fa-smile\"></i>";
+		}
+		else if(boardName.startsWith("notice")) {
+			Icon = "<i class=\"fas fa-flag\"></i>";
+		}
+		else if(boardName.startsWith("info")) {
+			Icon ="<i class=\"fas fa-info\"></i>";
+		}
+		return Icon;
 	}
 }
