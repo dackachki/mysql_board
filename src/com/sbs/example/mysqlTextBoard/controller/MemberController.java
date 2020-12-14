@@ -173,9 +173,9 @@ public class MemberController extends Controller {
 				if (member.memberId.equals(memberId)) {
 					System.out.println("이미 존재하는 아이디 입니다.");
 					joinTryC++;
-
+					
 				}
-				continue;
+				
 			}
 			
 			if (joinIdOk) {

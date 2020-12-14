@@ -41,34 +41,48 @@ public class ExportService {
 		for (Article article : articles) {
 			
 			memberService.getMembers();
+			String boardName = boardController.getBoardNameById(article.boardId);
 			String writerName = memberService.getMemberNameById(article.memberId);
 			//filename
 			String fileName = boardController.getBoardNameById(article.boardId)+"_"+article.id + ".html";
 			//content
 			
+			
 			String html="";
 			String articleDetail="";
 			String head =util.getFileContents("html_template/header.html"); 
-			
-			articleDetail += "<div>번호 : " + article.id + "</div>";
+			articleDetail += "<div class=\"con article_body\">";
+			articleDetail += "<div>제목 : " + article.title + "</div>";
 			articleDetail += "<div>날짜 : " + article.regDate + "</div>";
 			articleDetail += "<div>작성자 : " + writerName + "</div>";
-			articleDetail += "<div>제목 : " + article.title + "</div>";
+			articleDetail += "<div>번호 : " + article.id + "</div>";
 			articleDetail += "<div>내용 : " + article.body + "</div>";
+			articleDetail += "</div>";
+			articleDetail += "<br><br>";
 			articleDetail +="\n";
 			head = head.replace("[Article_List]", articleDetail);
-			String presentDirectory =boardController.getBoardNameById(article.boardId)+"게시판"+article.id+"번 게시물";
-			head = head.replace("[Directory_Show", presentDirectory);
+			
+			String presentDirectory ="";
+			presentDirectory+="<section class =\"title-bar con-min-width\">";
+			presentDirectory+="<h1 class=\"con\">";
+			presentDirectory+=summary.getIconByBoardName(boardName);
+			presentDirectory+=boardController.getBoardNameById(article.boardId)+"게시판  "+article.id+"번 게시물";
+			presentDirectory+="</h1>";
+			presentDirectory+="<div class=\"con\">";
+			head = head.replace("[Directory_Show]", presentDirectory);
 			
 			List<Board> boards = boardController.getBoards();
 			String ArticleBoardsList = "";
+			
 			for (Board board : boards) {
 				ArticleBoardsList += "<li><a href=\"/./work/work/mysql-text-board/exportHtml/" + board.boardName + "/"
-						+ board.boardName + "list-" + 1 + ".html\" class = \"block\"><span>" + board.boardName
+						+ board.boardName + "list-" + 1 + ".html\" class = \"block\">"+summary.getIconByBoardName(board.boardName) +"<span>" + board.boardName
 						+ "</span></a></li>";
 			}
-			head = head.replace("[Article_List_Part]", ArticleBoardsList);
+			head = head.replace("[Board_List_Part]", ArticleBoardsList);
 			html +=head;
+			String articlePN = "";
+			articlePN +="<div class=\"below_button flex\">";
 			if(previusId >= articles.size()) {
 				previusId = articles.size();
 			}
@@ -76,18 +90,24 @@ public class ExportService {
 				nextId = articles.size();
 			}
 			if (article.id > articlesId[0]) {
-				html += "<div><a href=\"" +boardController.getBoardNameById(article.boardId)+"_"+(articles.get(previusId-1).id)+ ".html\">이전글</a></div>";
+				articlePN += "<div><a href=\"" +boardController.getBoardNameById(article.boardId)+"_"+(articles.get(previusId-1).id)+ ".html\">이 전 글</a></div>";
 				previusId ++;	
 			}
-			html +="\n";
+			articlePN +="\n";
 			if(article.id < articlesId[articles.size()-1]) {
-			html += "<div><a href=\"" +boardController.getBoardNameById(article.boardId)+"_"+(articles.get(nextId+1).id)+ ".html\">다음글</a></div>";
+				articlePN += "<div><a href=\"" +boardController.getBoardNameById(article.boardId)+"_"+(articles.get(nextId+1).id)+ ".html\">다 음 글</a></div>";
 				nextId++;
 			}
-			html +="\n";
+			articlePN += "<div><a href=\""+boardName+"list-1.html"+"\">목 록</a></div>";
+			articlePN +="\n";
+			articlePN +="</div>";
+			articlePN +="</div>";
+			html += articlePN;
+			html += "</section>";
+			html += "</main>";
+			html+=util.getFileContents("html_template/footer.html");
 			
 			
-			String boardName = boardController.getBoardNameById(article.boardId);
 			String boardpath = ("exportHtml/"+boardName+"\\");
 			
 			util.writeFileContents(boardpath + fileName, html);

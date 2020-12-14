@@ -171,7 +171,9 @@ a {
 }
 
 .menu-bar__menu-1 ul > li:hover > a {
+  
   background-color:white;
+  z-index:1;
   color:black;
 }
 
@@ -189,6 +191,11 @@ a {
   border:10px solid black;
   border-top-width:0;
   border-radius:0 0 20px 20px;
+  z-index:10;
+  font-size:1.5rem;
+}
+.menu-bar__menu-1> ul ul i{
+	margin-right:10px;
 }
 
 .menu-bar__menu-1 > ul > li:hover > ul {
@@ -204,6 +211,13 @@ a {
 .title-bar {
   margin-top:30px;
   margin-bottom:30px;
+}
+
+.title-bar h1{
+  margin-bottom:10px;
+}
+.title-bar h1 i{
+  margin-right:1px;
 }
 /* 타이틀바 끝 */
 
@@ -221,23 +235,23 @@ a {
 }
 main > .hyperlink_page{
   text-align:center;
-
+  
 }
 main> .hyperlink_page li{
  display:inline-block;
-  margin:0 30px;
+  margin:0 20px;
   
   
 }
 main> .hyperlink_page li a{
   
   padding:0 10px;
-  font-size:1.5rem;
-  
+  font-size:1.2rem;
+  border:1px solid transparent;
 }
 
 main> .hyperlink_page li:hover a{
-  text-decoration:underline;
+  border-color:#aaaaaa;
 }
 /* 리스트 */
 
@@ -251,7 +265,7 @@ main> .hyperlink_page li:hover a{
   position:relative;
 }
 
-.article-list > header > div > div::after {
+.article-list > header > div > div:not(:last-child)::after {
   content:"";
   position:absolute;
   top:50%;
@@ -280,10 +294,13 @@ main> .hyperlink_page li:hover a{
 
 .article-list__cell-writer {
   width:var(--article-list__cell-writer__width);
+  
 }
 
 .article-list__cell-title {
   width:var(--article-list__cell-title__width);
+  font-weight:bold;
+  font-size:1.2rem;
 }
 
 .article-list > main .article-list__cell-title {
@@ -294,6 +311,34 @@ main> .hyperlink_page li:hover a{
 .article-list > main > div {
   border-top:1px solid black;
 }
+
+.below_button {
+  justify-content:center;
+  
+}
+.below_button a{
+  font-weight:bold;
+  margin:0 20px;
+}
+.below_button a:hover{
+  text-decoration:underline;
+}
+/* 상세 게시물 바디 */
+.article_body{
+ 
+}
+.article_body > div:not(:last-child){
+  border-bottom:1px solid black;
+}
+.article_body>div:last-child{
+  border:1px solid black;
+  border-top:0;
+}
+.article_body >div:first-child{
+font-weight:bold;
+  font-size:1.2rem;
+  }
+/* 상세 게시물 바디 */
 </style>
 
   
@@ -336,7 +381,7 @@ main> .hyperlink_page li:hover a{
               <span>ARTICLES</span>
             </a>
             <ul>
-              [Article_List_Part] 
+              [Board_List_Part] 
             </ul>
           </li>
           <li>
@@ -346,13 +391,13 @@ main> .hyperlink_page li:hover a{
             </a>
             <ul>
               <li>
-                <a href="https://jhs512.github.io/blog/" target="_blank" class="block">
+                <a href="https://nampnd.tistory.com/" target="_blank" class="block">
                   <i class="fab fa-blogger-b"></i>
                   <span>BLOG</span>
                 </a>
               </li>
               <li>
-                <a href="https://github.com/" target="_blank" class="block">
+                <a href="https://github.com/dackachki" target="_blank" class="block">
                   <i class="fab fa-github"></i>
                   <span>GITHUB</span>
                 </a>
@@ -374,40 +419,7 @@ main> .hyperlink_page li:hover a{
   <main class="flex-grow-1">
     <section class="title-bar con-min-width">
      	[Directory_Show]
-    </section>
-
-    <section class="section-1 con-min-width">
-      <div class="con">
-      
-  <section class="section-1 con-min-width">
-    <div class="con">
-      <div class="article-list">
-        <header>
-          <div>
-            <div class="article-list__cell-id">번호</div>
-            <div class="article-list__cell-reg-date">날짜</div>
-            <div class="article-list__cell-writer">작성자</div>
-            <div class="article-list__cell-title">제목</div>
-          </div>
-        </header>
+    
         [Article_List]
-      </div>
-    </section>
-  </main>
+      
 
-  <footer class="bottom-bar con-min-width">
-    <div class="con flex flex-ai-c">
-      <a href="#" class="logo logo--mini flex flex-ai-c">
-        <i class="fab fa-jenkins"></i>
-        <span>
-          Develo<span>p</span>ers
-        </span>
-      </a>
-
-      <div class="bottom-bar__site-info">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum eos ipsum necessitatibus doloremque quos voluptate debitis earum aut a consequuntur explicabo deleniti qui eius facere, harum error eveniet vel laudantium.
-      </div>
-    </div>
-  </footer>
-</div>
-  
