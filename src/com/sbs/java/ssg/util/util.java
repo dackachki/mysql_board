@@ -64,8 +64,8 @@ public class util {
 
 	// 파일 쓰기
 	public static void writeFileContents(String filePath, String contents) {
-		
-		BufferedOutputStream bs =null;
+
+		BufferedOutputStream bs = null;
 		try {
 			bs = new BufferedOutputStream(new FileOutputStream(filePath));
 			bs.write(contents.getBytes()); // Byte형으로만 넣을 수 있음
@@ -80,14 +80,12 @@ public class util {
 		}
 	}
 
-	
-		public static void mkdirs(String path) {
-			File dir = new File(path);
+	public static void mkdirs(String path) {
+		File dir = new File(path);
 
-			if (dir.exists() == false) {
-				dir.mkdirs();
-			}
+		if (dir.exists() == false) {
+			dir.mkdirs();
 		}
-		
-	
+	}
+
 }

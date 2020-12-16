@@ -95,8 +95,18 @@ public class selectedBoardSummary {
 		}
 		
 		head = head.replace("[Board_List_Part]", ArticleBoardsList);
+		StringBuilder highlight =  new StringBuilder();
+		int highNum = page+3;
+		if(page == 1) {
+			highNum = page+2;
+		}
 		
-		
+		highlight.append("main >.hyperlink_page > ul > li:nth-child("+highNum+")> a");
+		highlight.append("\n");
+		highlight.append("{ color:red;");
+		highlight.append("\n");
+		highlight.append("}");
+		head = head.replace("[page_highlight]", highlight);
 		String directory=" <section class=\"title-bar con-min-width\">\r\n"
 				+ "      <h1 class=\"con\">\r\n"
 				+ 		getIconByBoardName(presentBoard)
@@ -146,10 +156,9 @@ public class selectedBoardSummary {
 		Listsb.append("<br>");
 		Listsb.append("<br>");
 		if(page > 1) {
-			Listsb.append("<li><a href=\""+BoardName+"list-"+(page-1)+".html\"> &lt;이전");	
+			Listsb.append("<li><a href=\""+BoardName+"list-"+(page-1)+".html\"> &lt;이전");
+			Listsb.append("</a></li>");
 		}
-		
-		Listsb.append("</li>");
 		for (int i = 1; i <= pageLastNumber; i++) {
 			Listsb.append("<li>");
 			Listsb.append("\n");
