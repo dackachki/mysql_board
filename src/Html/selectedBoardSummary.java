@@ -89,7 +89,7 @@ public class selectedBoardSummary {
 		String head = util.getFileContents("html_template/header.html");
 		
 		for (Board board : boards) {
-			ArticleBoardsList += "<li><a href=\"/./work/work/mysql-text-board/exportHtml/" + board.boardName + "/"
+			ArticleBoardsList += "<li><a href=\"../" + board.boardName + "/"
 					+ board.boardName + "list-" + 1 + ".html\" class = \"block\">"+getIconByBoardName(board.boardName) +"<span>" + board.boardName
 					+ "</span></a></li>";
 		}
@@ -195,6 +195,9 @@ public class selectedBoardSummary {
 		}
 		else if(boardName.startsWith("info")) {
 			Icon ="<i class=\"fas fa-info\"></i>";
+		}
+		else if(boardName.startsWith("IT")) {
+			Icon = "<i class=\"fas fa-wrench\"></i>";
 		}
 		return Icon;
 	}

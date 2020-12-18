@@ -1,0 +1,36 @@
+
+<section class="section-1 con-min-width">
+	<div class="con">
+		<div class="article_body">
+			<h2 class="article_body_title">제목: ${article_body_title}</h2>
+
+			<div class="article_body_sub-info flex">
+				<div class ="article_body_Id">게시물 번호: ${article_body_Id}&nbsp;&nbsp;</div>
+				<div class="article_body_board-name">게사판: ${article_body_board_Name}&nbsp;&nbsp;</div>
+				<div class="article_body_reg-date">등록일 : ${article_body_reg_date}&nbsp;&nbsp;</div>
+				<div class="article_body_writer">작성자: ${article-body_writer}&nbsp;&nbsp;</div>
+				
+			</div>
+
+			<div class="article_body_body">${article_body_body}</div>
+			
+				<div class="article-detail__reply-box">
+				<div id="disqus_thread"></div>
+				<script>
+					(function() { // DON'T EDIT BELOW THIS LINE
+						var d = document, s = d.createElement('script');
+						s.src = 'https://nsw-blog.disqus.com/embed.js';
+						s.setAttribute('data-timestamp', +new Date());
+						(d.head || d.body).appendChild(s);
+					})();
+				</script>
+				<noscript>
+					Please enable JavaScript to view the
+					<a href="https://disqus.com/?ref_noscript">comments powered by
+						Disqus.</a>
+				</noscript>
+			</div>
+
+
+<script src="app.js"></script>
+<script id="dsq-count-scr" src="//nsw-blog.disqus.com/count.js" async></script>

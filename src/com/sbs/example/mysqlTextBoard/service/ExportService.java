@@ -42,25 +42,25 @@ public class ExportService {
 			
 			memberService.getMembers();
 			String boardName = boardController.getBoardNameById(article.boardId);
-			String writerName = memberService.getMemberNameById(article.memberId);
+			String bodyTemplate = util.getFileContents("html_template/detail.html");
+			String head =util.getFileContents("html_template/header.html"); 
 			//filename
 			String fileName = boardController.getBoardNameById(article.boardId)+"_"+article.id + ".html";
 			//content
 			
 			
 			String html="";
-			String articleDetail="";
-			String head =util.getFileContents("html_template/header.html"); 
-			articleDetail += "<div class=\"con article_body\">";
-			articleDetail += "<div>제목 : " + article.title + "</div>";
-			articleDetail += "<div>날짜 : " + article.regDate + "</div>";
-			articleDetail += "<div>작성자 : " + writerName + "</div>";
-			articleDetail += "<div>번호 : " + article.id + "</div>";
-			articleDetail += "<div>내용 : " + article.body + "</div>";
-			articleDetail += "</div>";
-			articleDetail += "<br><br>";
-			articleDetail +="\n";
-			head = head.replace("[Article_List]", articleDetail);
+			
+			
+			bodyTemplate = bodyTemplate.replace("${article_body_title}", article.title);
+			bodyTemplate = bodyTemplate.replace("${article_body_reg_date}", article.regDate);
+			bodyTemplate = bodyTemplate.replace("${article_body_board_Name}",boardName);
+			bodyTemplate = bodyTemplate.replace("${article-body_writer}", article.extra_writer);
+			bodyTemplate = bodyTemplate.replace("${article_body_Id}", Integer.toString(article.id));
+			bodyTemplate = bodyTemplate.replace("${article_body_body}",article.body);
+			
+			
+			head = head.replace("[Article_List]", bodyTemplate);
 			
 			String presentDirectory ="";
 			presentDirectory+="<section class =\"title-bar con-min-width\">";
@@ -75,7 +75,7 @@ public class ExportService {
 			String ArticleBoardsList = "";
 			
 			for (Board board : boards) {
-				ArticleBoardsList += "<li><a href=\"/./work/work/mysql-text-board/exportHtml/" + board.boardName + "/"
+				ArticleBoardsList += "<li><a href=\"../" + board.boardName + "/"
 						+ board.boardName + "list-" + 1 + ".html\" class = \"block\">"+summary.getIconByBoardName(board.boardName) +"<span>" + board.boardName
 						+ "</span></a></li>";
 			}
