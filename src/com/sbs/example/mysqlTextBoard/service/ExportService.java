@@ -90,12 +90,12 @@ public class ExportService {
 				nextId = articles.size();
 			}
 			if (article.id > articlesId[0]) {
-				articlePN += "<div><a href=\"" +boardController.getBoardNameById(article.boardId)+"_"+(articles.get(previusId-1).id)+ ".html\">이 전 글</a></div>";
+				articlePN += "<div><a href=\"" +boardController.getBoardNameById(article.boardId)+"_"+(articles.get(previusId-1).id)+ ".html\">&lt; 이 전 글</a></div>";
 				previusId ++;	
 			}
 			articlePN +="\n";
 			if(article.id < articlesId[articles.size()-1]) {
-				articlePN += "<div><a href=\"" +boardController.getBoardNameById(article.boardId)+"_"+(articles.get(nextId+1).id)+ ".html\">다 음 글</a></div>";
+				articlePN += "<div><a href=\"" +boardController.getBoardNameById(article.boardId)+"_"+(articles.get(nextId+1).id)+ ".html\">다 음 글 &gt;</a></div>";
 				nextId++;
 			}
 			articlePN += "<div><a href=\""+boardName+"list-1.html"+"\">목 록</a></div>";
