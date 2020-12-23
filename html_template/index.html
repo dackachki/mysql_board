@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!--Open Graph-->
+<meta property="og:title" content="초보 개발자의 블로그" />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" />
+<meta property="og:site_name" content=”My_Blog” />
+<meta property="og:url" content=”blog.lla.kr” />
+<meta property="og:description" content="계속 개발중인 개인 블로그 입니다." />
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6S0XBXH3KP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6S0XBXH3KP');
+</script>
+<!--시계-->
+<script>
+	setInterval(function(){
+		 
+		var timer = new Date();
+		var h = timer.getHours();
+		var m = timer.getMinutes();
+		var s = timer.getSeconds();
+		document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;
+	},1000);
+</script>
+
+
+
+<!-- 네이버 서치어드바이저 -->
+<meta name="naver-site-verification" content="385dd4bdf0b565c2f85a8689586a9f29ebdab2dc" />
+
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+<script data-ad-client="ca-pub-9860818014343845" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<meta charset="UTF-8" />
+<title>My Blog</title>
+<!-- 폰트어썸 불러오기 -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+<link rel="stylesheet" href="app.css" />
+<link rel="stylesheet" href="clock.css" />
+
+<meta name="google-site-verification" content="yZs9T3j7BocAR4zWWZiyXrThcbLbmEjl3SMaGahpDQw" />
+</head>
+
+<body>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
+
+	<script src="app.js"></script>
+	<script src="clock.js"></script>
+	
+	<div class="body-content min-height-100vh flex flex-column">
+		<!-- 로고바 시작 -->
+		
+		<header class="logo-bar con-min-width">
+			<div>
+			<h1 id="clock">
+				
+			</h1>
+		</div>
+			<div class="con height-100p flex flex-jc-c">
+				
+				<a href="./index.html" class="logo flex flex-ai-c">
+						
+					<i class="fab fa-jenkins"></i>
+					<span>
+						Develo<span>p</span>ers
+					</span>
+				</a>
+				
+			</div>
+		
+		
+		</header>
+		<!-- 로고바 끝 -->
+
+		<!-- 메뉴바 시작 -->
+		<header class="menu-bar con-min-width">
+			<div class="con height-100p">
+				<nav class="menu-bar__menu-1">
+					<ul class="flex">
+						<li>
+							<a href="./index.html" class="block">
+								<i class="fas fa-home"></i>
+								<span>HOME</span>
+							</a>
+						</li>
+						<li>
+							<a class="block">
+								<i class="fas fa-list"></i>
+								<span>ARTICLES</span>
+							</a>
+							<ul>
+								
+								<li><a href="info/infolist-1.html" class="block"><i class="fas fa-flag"></i> <span>INFO BOARD</span></a></li>
+							<li><a href="IT/ITlist-1.html" class="block"><i class="fas fa-wrench"></i> <span>IT BOARD</span></a></li>
+							</ul>
+						</li>
+						<li>
+							<a class="block">
+								<i class="fas fa-link"></i>
+								<span>LINK</span>
+							</a>
+							<ul>
+								<li>
+									<a href="https://nampnd.tistory.com" target="_blank"
+										class="block">
+										<i class="fab fa-blogger-b"></i>
+										<span>BLOG</span>
+									</a>
+								</li>
+								<li>
+									<a href="https://github.com/dackachki" target="_blank" class="block">
+										<i class="fab fa-github"></i>
+										<span>GITHUB</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="stat.html" class="block">
+								<i class="fas fa-chart-pie"></i>
+								<span>STATISTICS</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<!-- 메뉴바 끝 -->
+		
+
+		<main class="flex-grow-1" id="mpart">
+			<section class="title-bar con-min-width">
+				<h1 class="con">
+					<i class="fas fa-home"></i> <span>HOME</span>
+				</h1>
+			</section><section class="section-1 con-min-width">
+				<nav class="side-bar">
+					<selector>배경 변경</selector>
+					<ul>
+					  <li>
+						<a href="#" onclick="setBackground(1)">Daily Photo 1번</a>
+					  </li>
+					  <li>
+						<a href="#" onclick="setBackground(2)">Daily Photo 2번</a>
+					  </li>
+					  <li>
+						<a href="#" onclick="setBackground(3)">Daily Photo 3번</a>
+					  </li>
+					  <li>
+						<a href="#" onclick="setBackground(4)">Daily Photo 4번</a>
+					  </li>
+					  <li>
+						<a href="#" onclick="setBackground(5)">Daily Photo 5번</a>
+					  </li>
+					  <li>
+						<a href="#" onclick="setBackground(6)">Daily Photo 6번</a>
+					  </li>
+					  <li>
+						<a href="#" onclick="setBackground(7)">Daily Photo 7번</a>
+					  </li>
+					  <li>
+						<a href="#" onclick="setBackground(8)">Daily Photo 8번</a>
+					  </li>
+					  <li>
+						<a href="#" onclick="setBackground(9)">Daily Photo 9번</a>
+					  </li>
+					  <li>
+						<a href="#" onclick="setBackground(10)">Daily Photo 10번</a>
+					  </li>
+					  <li>
+						<a href="#" onclick="setBackground(0)">초기화</a>
+					  </li>
+					</ul>  
+				  </nav>
+	<div class="con"<div class="con">
+		<h1>공지사항</h1>
+		  <ul>
+			<li><a href="info/info_3.html">1.공지 Test</a></li><hr>
+			<li><a href="info/info_4.html">2.홈페이지 용도</a></li><hr>
+			
+		  </ul>
+		</div>
+		
+	</section>
+
+	<section class="section-2 conmin-width">
+		<div class="con"><h1>Daily Photos</h1>
+			<br> <a href="https://unsplash.com/t/wallpapers">원본 바로가기</a>
+		</div>
+	 
+	  <div class="slideshow-container">
+		  
+	
+	  <div class="mySlides fade" style="display:block">
+	  <div class="numbertext">1 / 10</div>
+	  <img src="downloads/1.jpg" style="width:100%">
+	  
+	</div>
+	
+	<div class="mySlides fade">
+	  <div class="numbertext">2 / 10</div>
+	  <img src="downloads/2.jpg" style="width:100%">
+	  
+	</div>
+	
+	<div class="mySlides fade">
+	  <div class="numbertext">3 / 10</div>
+	  <img src="downloads/3.jpg" style="width:100%">
+	  
+	</div>
+		<div class="mySlides fade">
+	  <div class="numbertext">4 / 10</div>
+	  <img src="downloads/4.jpg" style="width:100%">
+	  
+	</div>
+		<div class="mySlides fade">
+	  <div class="numbertext">5 / 10</div>
+	  <img src="downloads/5.jpg" style="width:100%">
+	  
+	</div>
+		<div class="mySlides fade">
+	  <div class="numbertext">6 / 10</div>
+	  <img src="downloads/6.jpg" style="width:100%">
+	  
+	</div>
+	<div class="mySlides fade">
+		<div class="numbertext">7 / 10</div>
+		<img src="downloads/7.jpg" style="width:100%">
+		
+	  </div>
+	  <div class="mySlides fade">
+		<div class="numbertext">8 / 10</div>
+		<img src="downloads/8.jpg" style="width:100%">
+		
+	  </div>
+	  <div class="mySlides fade">
+		<div class="numbertext">9 / 10</div>
+		<img src="downloads/9.jpg" style="width:100%">
+		
+	  </div>
+	  <div class="mySlides fade">
+		<div class="numbertext">10 / 10</div>
+		<img src="downloads/10.jpg" style="width:100%">
+		
+	  </div>
+	
+	<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+	<a class="next" onclick="plusSlides(1)">&#10095;</a>
+	
+	</div>
+	<br>
+	
+	<div style="text-align:center">
+	  <span class="dot" onclick="currentSlide(1)"></span> 
+	  <span class="dot" onclick="currentSlide(2)"></span> 
+	  <span class="dot" onclick="currentSlide(3)"></span> 
+	  <span class="dot" onclick="currentSlide(4)"></span> 
+	  <span class="dot" onclick="currentSlide(5)"></span> 
+	  <span class="dot" onclick="currentSlide(6)"></span> 
+	  <span class="dot" onclick="currentSlide(7)"></span> 
+	  <span class="dot" onclick="currentSlide(8)"></span> 
+	  <span class="dot" onclick="currentSlide(9)"></span>
+	  <span class="dot" onclick="currentSlide(10)"></span>  
+	  
+	</div>
+	</section></div>	
+</main>
+
+<footer class="bottom-bar con-min-width">
+	<div class="con flex flex-ai-c">
+		<a href="#" class="logo logo--mini flex flex-ai-c">
+			<i class="fab fa-jenkins"></i>
+			<span>
+				Develo<span>p</span>ers
+			</span>
+		</a>
+
+		<div class="bottom-bar__site-info">Lorem ipsum dolor sit amet
+			consectetur adipisicing elit. Dolorum eos ipsum necessitatibus
+			doloremque quos voluptate debitis earum aut a consequuntur explicabo
+			deleniti qui eius facere, harum error eveniet vel laudantium.</div>
+	</div>
+</footer>
+</div>
+</body>
+</html>

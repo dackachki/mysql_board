@@ -31,8 +31,15 @@ public class selectedBoardSummary {
 		for (Board board : boardController.getBoards()) {
 			Container.session.boardSelectedId = board.id;
 			makeHtmlOfSelectedBoard();
+			util.copy("html_template/app.css", "exportHtml/"+board.boardName+"/app.css");
+			util.copy("html_template/app.js", "exportHtml/"+board.boardName+"/app.js");
+			util.copy("html_template/index.html", "exportHtml/index.html");
 			System.out.printf("%s 게시판 html이 생성되었습니다.\n", board.boardName);
+	
 		}
+		util.copy("html_template/app.css", "exportHtml/app.css");
+		util.copy("html_template/app.js", "exportHtml/app.js");
+		util.copy("html_template/index.html", "exportHtml/index.html");
 		Container.session.boardSelectedId = 0;
 	}
 
