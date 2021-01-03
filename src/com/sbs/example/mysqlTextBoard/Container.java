@@ -2,6 +2,7 @@ package com.sbs.example.mysqlTextBoard;
 
 import java.util.Scanner;
 
+import com.sbs.example.mysqlTextBoard.Config.Config;
 import com.sbs.example.mysqlTextBoard.Session.Session;
 import com.sbs.example.mysqlTextBoard.controller.ArticleController;
 import com.sbs.example.mysqlTextBoard.controller.BoardController;
@@ -12,6 +13,7 @@ import com.sbs.example.mysqlTextBoard.dao.BoardDao;
 import com.sbs.example.mysqlTextBoard.dao.MemberDao;
 import com.sbs.example.mysqlTextBoard.service.ArticleService;
 import com.sbs.example.mysqlTextBoard.service.BoardService;
+import com.sbs.example.mysqlTextBoard.service.DisqusApiService;
 import com.sbs.example.mysqlTextBoard.service.ExportService;
 import com.sbs.example.mysqlTextBoard.service.MemberService;
 
@@ -29,14 +31,18 @@ public class Container {
 	public static MemberService memberService;
 	public static ExportService exportService;
 	public static Controller exportController;
+	public static DisqusApiService disqusApiServce;
+	public static Config config;
 	
 	static {
 		scanner = new Scanner(System.in);
 		session = new Session();
+		config = new Config();
 		
 		memberDao = new MemberDao();
 		boardDao = new BoardDao();
 		
+		disqusApiServce= new DisqusApiService();
 		boardService = new BoardService();
 		articleService = new ArticleService();
 		memberService = new MemberService();

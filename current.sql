@@ -30,7 +30,7 @@ CREATE TABLE `article` (
   `boardId` int(10) unsigned NOT NULL,
   `hit` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `article` */
 
@@ -40,7 +40,8 @@ insert  into `article`(`id`,`regDate`,`updateDate`,`title`,`body`,`memberId`,`bo
 (3,'2020-12-18 10:22:52','2020-12-18 10:22:52','공지 Test','# 공지사항\r\n\r\n## 공지 TEST\r\n\r\n- Test\r\n\r\n공지공지 \r\n공지공지 \r\n공지공지 \n공지공지 \r\n공지공지    ',1,2,0),
 (4,'2020-12-21 12:08:29','2020-12-21 12:08:29','홈페이지 용도','# 공지사항\r\n\r\n## 공지\r\n - 포트폴리오용 개인 블로그 입니다.',1,2,0),
 (6,'2020-12-21 12:11:34','2020-12-21 12:11:34','Java 3회','# Java 20-12-21\r\n\r\n## Java 3강\r\n\r\n- Array,ArrayList\r\n\r\n```java\r\n// Array\r\nint[] numbers  = {0,1,2};\r\n\r\n//ArrayList\r\nList<자료형(Integer,String 등등)> abc = new ArrayList<>();\r\n// 여기선 Integer형\r\n    abc.add(0);\r\n    abc.add(1);\r\n    abc.add(2);\r\n\r\n```\r\n',1,3,0),
-(9,'2020-12-22 18:27:15','2020-12-22 18:27:15','이모티콘 추가','???????\r\n이모티콘을 사용하기 위해서 utf-8이 아닌 utf8mb4으로 인코딩이 필요하다.\r\n사용중인 sqlylog은 기본적으로 utf-8을 사용하기 떄문에 \r\nmy.ini에서 [mysqld] 아래에 character-set-client-handshake = FALSE 을 설정하여\r\nclient의 charset을 서버의 것으로 동기화를 시켜 매번 바꿔줘야 하는\r\n불편함을 없앨 수 있다.',1,3,0);
+(9,'2020-12-22 18:27:15','2020-12-22 18:27:15','이모티콘 추가','???????\r\n이모티콘을 사용하기 위해서 utf-8이 아닌 utf8mb4으로 인코딩이 필요하다.\r\n사용중인 sqlylog은 기본적으로 utf-8을 사용하기 떄문에 \r\nmy.ini에서 [mysqld] 아래에 character-set-client-handshake = FALSE 을 설정하여\r\nclient의 charset을 서버의 것으로 동기화를 시켜 매번 바꿔줘야 하는\r\n불편함을 없앨 수 있다.',1,3,0),
+(10,'2020-12-29 22:44:57','2020-12-29 22:44:57','Java & JavaScript','# Java 20-12-29\r\n\r\n## Java와 JavaScript\r\n\r\n - 이름이 비슷하여 서로 관련이 있을 줄 알았지만\r\n    전혀 별개의 언어이며 Java는 서버측 JavaScript는 클라이언트측 언어로\r\n    구분하며 Node.js를 사용하면 JavaScript로도 서버개발이 가능하다고 한다.',1,3,0);
 
 /*Table structure for table `board` */
 
