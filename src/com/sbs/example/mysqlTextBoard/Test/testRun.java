@@ -31,11 +31,20 @@ public class testRun {
 
 
 	public void run() {
-		testGoogleCredentials();
-	//	testGoogleAnalystics();
+		testUpdatePageHitsByGa4Api();
+		
+		
+		//testGoogleCredentials();
+		//	testGoogleAnalystics();
 	}
 	
 	
+	private void testUpdatePageHitsByGa4Api() {
+		Container.googleAnalyticsApiService.updatePageHits();
+		
+	}
+
+
 	private void testGoogleCredentials() {
 		String keyFilePath = System.getenv("GOOGLE_APPLICATION_CREDENTIALS");
 		System.out.println(keyFilePath);
@@ -52,8 +61,8 @@ public class testRun {
 		      RunReportRequest request = RunReportRequest.newBuilder()
 		          .setEntity(Entity.newBuilder().setPropertyId(ga4PropertyId))
 		          .addDimensions(
-		              Dimension.newBuilder().setName("city"))
-		          .addMetrics(Metric.newBuilder().setName("pagePath"))
+		              Dimension.newBuilder().setName("pagePath"))
+		          .addMetrics(Metric.newBuilder().setName("activeUsers"))
 		          .addDateRanges(
 		              DateRange.newBuilder().setStartDate("2020-03-31").setEndDate("today")).build();
 

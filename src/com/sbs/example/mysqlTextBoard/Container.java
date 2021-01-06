@@ -15,6 +15,7 @@ import com.sbs.example.mysqlTextBoard.service.ArticleService;
 import com.sbs.example.mysqlTextBoard.service.BoardService;
 import com.sbs.example.mysqlTextBoard.service.DisqusApiService;
 import com.sbs.example.mysqlTextBoard.service.ExportService;
+import com.sbs.example.mysqlTextBoard.service.GoogleAnalyticsApiService;
 import com.sbs.example.mysqlTextBoard.service.MemberService;
 
 public class Container {
@@ -33,12 +34,13 @@ public class Container {
 	public static Controller exportController;
 	public static DisqusApiService disqusApiServce;
 	public static Config config;
+	public static GoogleAnalyticsApiService googleAnalyticsApiService;
 	
 	static {
 		scanner = new Scanner(System.in);
 		session = new Session();
 		config = new Config();
-		
+		googleAnalyticsApiService = new GoogleAnalyticsApiService();
 		memberDao = new MemberDao();
 		boardDao = new BoardDao();
 		
