@@ -1,5 +1,6 @@
 package com.sbs.example.mysqlTextBoard.Test;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.analytics.data.v1alpha.AlphaAnalyticsDataClient;
+import com.google.analytics.data.v1alpha.DateRange;
+import com.google.analytics.data.v1alpha.Dimension;
+import com.google.analytics.data.v1alpha.Entity;
+import com.google.analytics.data.v1alpha.Metric;
+import com.google.analytics.data.v1alpha.Row;
+import com.google.analytics.data.v1alpha.RunReportRequest;
+import com.google.analytics.data.v1alpha.RunReportResponse;
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.DisqusApiDataListThread;
 import com.sbs.java.ssg.util.util;
@@ -22,9 +31,49 @@ public class testRun {
 
 
 	public void run() {
-		testJackson5();
-
+		testGoogleCredentials();
+	//	testGoogleAnalystics();
 	}
+	
+	
+	private void testGoogleCredentials() {
+		String keyFilePath = System.getenv("GOOGLE_APPLICATION_CREDENTIALS");
+		System.out.println(keyFilePath);
+	}
+
+		
+	
+
+
+	private void testGoogleAnalystics() {
+		
+		    try (AlphaAnalyticsDataClient analyticsData = AlphaAnalyticsDataClient.create()) {
+		    	String ga4PropertyId = Container.config.ga4PropertyId();
+		      RunReportRequest request = RunReportRequest.newBuilder()
+		          .setEntity(Entity.newBuilder().setPropertyId(ga4PropertyId))
+		          .addDimensions(
+		              Dimension.newBuilder().setName("city"))
+		          .addMetrics(Metric.newBuilder().setName("pagePath"))
+		          .addDateRanges(
+		              DateRange.newBuilder().setStartDate("2020-03-31").setEndDate("today")).build();
+
+		      // Make the request
+		      RunReportResponse response = analyticsData.runReport(request);
+
+		      System.out.println("Report result:");
+		      for (Row row : response.getRowsList()) {
+		        System.out.printf("%s, %s%n", row.getDimensionValues(0).getValue(),
+		            row.getMetricValues(0).getValue());
+		      }
+		    } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		  }
+		
+	
+
+
 	private void testJackson5() {
 		String jsonString = "[{\"age\":22, \"name\":\"홍길동\", \"height\":178},{\"age\":23, \"name\":\"홍길순\", \"height\":168},{\"age\":24, \"name\":\"임꺽정\"}]";
 
@@ -39,7 +88,7 @@ public class testRun {
 			return;
 		}
 
-		System.out.println(rs.get(0).height + rs.get(1).height);
+		
 	}
 	
 

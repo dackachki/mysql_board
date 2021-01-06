@@ -121,7 +121,8 @@ public class util {
 		}
         
         return true;
-	}public static String callApi(String urlStr, String... args) {
+	}
+	public static String callApi(String urlStr, String... args) {
 		// URL 구성 시작
 		StringBuilder queryString = new StringBuilder();
 
@@ -172,6 +173,7 @@ public class util {
 		}
 		// 연결을 통해서 데이터 가져오기 끝
 		System.out.println(content);
+		
 		return content.toString();
 	}
 
@@ -199,7 +201,7 @@ public class util {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-
+		System.out.println(jsonString);
 		return null;
 	}
 }

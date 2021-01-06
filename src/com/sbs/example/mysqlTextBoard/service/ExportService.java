@@ -121,7 +121,7 @@ public class ExportService {
 			Map<String, Object> disqusArticleData = disqusApiServce.getArticleData(article);
 			int like = (int) disqusArticleData.get("likesCount");
 			int comments = (int) disqusArticleData.get("commentsCount");
-			System.out.printf("%d,%d",like,comments);
+			System.out.printf("%d,%d\n",like,comments);
 		}
 
 	}

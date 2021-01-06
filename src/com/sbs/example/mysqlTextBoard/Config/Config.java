@@ -2,6 +2,10 @@ package com.sbs.example.mysqlTextBoard.Config;
 
 public class Config {
 
+	public String ga4PropertyId() {
+		return "256607108";
+	}
+
 	public String getDisqusApiKey() {
 		 
 		return "YeC422bcRwWC8Irb4PeWcnz31UVSEs0uMZcX7iWa84GIqzW6bC14dbnVViQqedkV";

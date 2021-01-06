@@ -30,7 +30,7 @@ CREATE TABLE `article` (
   `boardId` int(10) unsigned NOT NULL,
   `hit` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `article` */
 
@@ -41,7 +41,8 @@ insert  into `article`(`id`,`regDate`,`updateDate`,`title`,`body`,`memberId`,`bo
 (4,'2020-12-21 12:08:29','2020-12-21 12:08:29','홈페이지 용도','# 공지사항\r\n\r\n## 공지\r\n - 포트폴리오용 개인 블로그 입니다.',1,2,0),
 (6,'2020-12-21 12:11:34','2020-12-21 12:11:34','Java 3회','# Java 20-12-21\r\n\r\n## Java 3강\r\n\r\n- Array,ArrayList\r\n\r\n```java\r\n// Array\r\nint[] numbers  = {0,1,2};\r\n\r\n//ArrayList\r\nList<자료형(Integer,String 등등)> abc = new ArrayList<>();\r\n// 여기선 Integer형\r\n    abc.add(0);\r\n    abc.add(1);\r\n    abc.add(2);\r\n\r\n```\r\n',1,3,0),
 (9,'2020-12-22 18:27:15','2020-12-22 18:27:15','이모티콘 추가','???????\r\n이모티콘을 사용하기 위해서 utf-8이 아닌 utf8mb4으로 인코딩이 필요하다.\r\n사용중인 sqlylog은 기본적으로 utf-8을 사용하기 떄문에 \r\nmy.ini에서 [mysqld] 아래에 character-set-client-handshake = FALSE 을 설정하여\r\nclient의 charset을 서버의 것으로 동기화를 시켜 매번 바꿔줘야 하는\r\n불편함을 없앨 수 있다.',1,3,0),
-(10,'2020-12-29 22:44:57','2020-12-29 22:44:57','Java & JavaScript','# Java 20-12-29\r\n\r\n## Java와 JavaScript\r\n\r\n - 이름이 비슷하여 서로 관련이 있을 줄 알았지만\r\n    전혀 별개의 언어이며 Java는 서버측 JavaScript는 클라이언트측 언어로\r\n    구분하며 Node.js를 사용하면 JavaScript로도 서버개발이 가능하다고 한다.',1,3,0);
+(10,'2020-12-29 22:44:57','2020-12-29 22:44:57','Java & JavaScript','# Java 20-12-29\r\n\r\n## Java와 JavaScript\r\n\r\n - 이름이 비슷하여 서로 관련이 있을 줄 알았지만\r\n    전혀 별개의 언어이며 Java는 서버측 JavaScript는 클라이언트측 언어로\r\n    구분하며 Node.js를 사용하면 JavaScript로도 서버개발이 가능하다고 한다.',1,3,0),
+(11,'2021-01-04 19:14:01','2021-01-04 19:14:01','Vue Computed를 사용한 더하기 구현','# Vue 21-01-04\r\n\r\n## Computed를 사용하여 더하기 기능 구현\r\n\r\n- 저장 버튼을 누르면 입력했던 숫자가 저장이 되어 리스트 형태로 출력됨\r\n  [해당 Codepen 바로가기](https://codepen.io/dackachki/pen/YzGaMyy?editors=1111)\r\n- funtion submit에서 var를 맨 처음 선언하고 그 다음부터 안해도 상관이 없는지..\r\n  각각 선언하면 console에서 Unexpect Token \'var\' 에러 출력\r\n- 배열에 초기값을 넣어줘야 되서 모두 1로 선언 후 v-if로 index가 0이상만 나오도록 함',1,3,0);
 
 /*Table structure for table `board` */
 
