@@ -7,8 +7,8 @@ public class Main {
 
 		
 		
-		new testRun().run();
+	//	new testRun().run();
 		
-	//new App().run();
+	new App().run();
 	}
 }

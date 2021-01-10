@@ -159,6 +159,11 @@ public class ArticleDao {
 		System.out.println(recommandList);
 		
 	}
+
+	public Object updatePageHits() {
+		
+		return null;
+	}
 		
 	}
 

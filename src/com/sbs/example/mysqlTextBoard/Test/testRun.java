@@ -18,6 +18,7 @@ import com.google.analytics.data.v1alpha.RunReportRequest;
 import com.google.analytics.data.v1alpha.RunReportResponse;
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.DisqusApiDataListThread;
+import com.sbs.example.mysqlutil.MysqlUtil;
 import com.sbs.java.ssg.util.util;
 
 public class testRun {
@@ -31,6 +32,10 @@ public class testRun {
 
 
 	public void run() {
+		
+		
+		MysqlUtil.setDBInfo(Container.config.getDBHost(), Container.config.getDBId(), Container.config.getDbPw(), Container.config.getDbName());
+		
 		testUpdatePageHitsByGa4Api();
 		
 		

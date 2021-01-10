@@ -75,5 +75,10 @@ public class ArticleService {
 		articleDao.articleRecommand();
 		
 	}
+
+	public void updatePageHits() {
+		return articleDao.updatePageHits()
+		
+	}
 	
 }

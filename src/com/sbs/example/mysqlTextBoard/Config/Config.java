@@ -1,5 +1,7 @@
 package com.sbs.example.mysqlTextBoard.Config;
 
+import com.sbs.example.mysqlutil.MysqlUtil;
+
 public class Config {
 
 	public String ga4PropertyId() {
@@ -15,5 +17,19 @@ public class Config {
 
 		return "nsw-blog";
 	}
-
+	
+	public String getDBHost() {
+		
+		return "localhost";
+	}
+	public String getDBId() {
+		return "sbsst";
+	}
+	public String getDbPw() {
+		return "sbs123414";
+		
+	}
+	public String getDbName() {
+		return "a2";
+	}
 }

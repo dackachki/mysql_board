@@ -31,7 +31,7 @@ public class Container {
 	public static ArticleService articleService;
 	public static MemberService memberService;
 	public static ExportService exportService;
-	public static Controller exportController;
+	public static ExportController exportController;
 	public static DisqusApiService disqusApiServce;
 	public static Config config;
 	public static GoogleAnalyticsApiService googleAnalyticsApiService;

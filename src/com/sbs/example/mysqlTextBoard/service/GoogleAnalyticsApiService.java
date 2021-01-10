@@ -15,6 +15,7 @@ import com.sbs.example.mysqlTextBoard.dao.Ga4DataDao;
 
 public class GoogleAnalyticsApiService {
 	private Ga4DataDao ga4DataDao;
+		
 
 	public GoogleAnalyticsApiService() {
 		ga4DataDao = new Ga4DataDao();
@@ -35,8 +36,8 @@ public class GoogleAnalyticsApiService {
 			for (Row row : response.getRowsList()) {
 				String pagePath = row.getDimensionValues(0).getValue();
 				int hit = Integer.parseInt(row.getMetricValues(0).getValue());
-				System.out.printf("pagePath : %s , hit: %d\n",pagePath,hit);
-				//update(pagePath, hit);
+				System.out.printf("[path:%s / %d\n",pagePath,hit);
+				update(pagePath, hit);
 			}
 		} catch (IOException e) {
 			return false;
@@ -52,7 +53,8 @@ public class GoogleAnalyticsApiService {
 
 	public void updatePageHits() {
 		updateGa4DataPageHits();
-	//	Container.articleService.updatePageHits();
+		Container.articleService.updatePageHits();
+		
 	}
 
 }

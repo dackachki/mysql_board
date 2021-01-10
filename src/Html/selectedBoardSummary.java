@@ -149,7 +149,7 @@ public class selectedBoardSummary {
 			 Listsb.append("\n");
 			 Listsb.append("<div class=\"article-list__cell-writer\">"+article.extra_writer+"</div>");  
 			 Listsb.append("\n");
-			 Listsb.append("<div class=\"article-list__cell-title\"><a href=\""+presentBoard+"_"+article.id+".html\">"+article.title);
+			 Listsb.append("<div class=\"article-list__cell-title\"><a href=\""+presentBoard+"_detail"+"_"+article.id+".html\">"+article.title);
 			 Listsb.append("\n");
 	         Listsb.append("</a>");  
 	         Listsb.append("</div>");

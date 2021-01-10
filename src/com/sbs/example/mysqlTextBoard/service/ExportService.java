@@ -47,7 +47,7 @@ public class ExportService {
 			String bodyTemplate = util.getFileContents("html_template/detail.html");
 			String head = util.getFileContents("html_template/header.html");
 			// filename
-			String fileName = boardController.getBoardNameById(article.boardId) + "_" + article.id + ".html";
+			String fileName = boardController.getBoardNameById(article.boardId)+"_detail" + "_" + article.id + ".html";
 			// content
 
 			String html = "";
@@ -58,6 +58,7 @@ public class ExportService {
 			bodyTemplate = bodyTemplate.replace("${article-body_writer}", article.extra_writer);
 			bodyTemplate = bodyTemplate.replace("${article_body_Id}", Integer.toString(article.id));
 			bodyTemplate = bodyTemplate.replace("${article_body_body}", article.body);
+			bodyTemplate = bodyTemplate.replace("${article_body_hit}", Integer.toString(article.hit));
 
 			head = head.replace("[Article_List]", bodyTemplate);
 
@@ -121,7 +122,7 @@ public class ExportService {
 			Map<String, Object> disqusArticleData = disqusApiServce.getArticleData(article);
 			int like = (int) disqusArticleData.get("likesCount");
 			int comments = (int) disqusArticleData.get("commentsCount");
-			System.out.printf("%d,%d\n",like,comments);
+			
 		}
 
 	}
@@ -132,7 +133,7 @@ public class ExportService {
 		for(Article article :articles) {
 			if(article.id == id) {
 				boardName = boardController.getBoardNameById(id);
-				return  boardName +"_"+ id+ ".html";
+				return  boardName +"_detail" +"_"+ id+ ".html";
 			}
 		}
 		return null;
